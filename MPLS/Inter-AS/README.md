@@ -1,5 +1,4 @@
 RFC 4364: BGP/MPLS IP Virtual Private Networks (VPNs)
-- Section 10: Multi-AS Backbones
 
 Option A
 - Section 10a
