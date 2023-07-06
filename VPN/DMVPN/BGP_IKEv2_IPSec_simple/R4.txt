@@ -1,0 +1,193 @@
+!
+! Last configuration change at 09:38:16 UTC Wed Jan 6 2021
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+crypto ikev2 keyring cisco-ikev2-keying
+ peer dmvpn-node
+  description symmetric pre-shared key for the hub/spoke
+  address 0.0.0.0 0.0.0.0
+  pre-shared-key cisco123
+ !
+!
+!
+crypto ikev2 profile cisco-ikev2-profile
+ match identity remote any
+ authentication local pre-share
+ authentication remote pre-share
+ keyring local cisco-ikev2-keying
+!
+!
+!
+crypto ipsec transform-set cisco-ts esp-aes esp-sha256-hmac 
+ mode transport
+!
+crypto ipsec profile cisco-ipsec-ikev2
+ set transform-set cisco-ts 
+ set ikev2-profile cisco-ikev2-profile
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no shutdown
+ ip address 150.1.4.4 255.255.255.255
+!
+interface Tunnel0
+ no shutdown
+ bandwidth 1000
+ ip address 155.1.0.4 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication donttell
+ ip nhrp map 155.1.0.5 169.254.100.5
+ ip nhrp map multicast 169.254.100.5
+ ip nhrp network-id 99
+ ip nhrp holdtime 300
+ ip nhrp nhs 155.1.0.5
+ ip nhrp shortcut
+ ip tcp adjust-mss 1360
+ delay 1000
+ tunnel source GigabitEthernet0/1.100
+ tunnel mode gre multipoint
+ tunnel key 100000
+ tunnel protection ipsec profile cisco-ipsec-ikev2
+!
+interface GigabitEthernet0/0
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no shutdown
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.100
+ no shutdown
+ encapsulation dot1Q 100
+ ip address 169.254.100.4 255.255.255.0
+!
+interface GigabitEthernet0/2
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 64512
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 155.1.0.5 remote-as 64512
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec ^CCC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^CCC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^CCC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
