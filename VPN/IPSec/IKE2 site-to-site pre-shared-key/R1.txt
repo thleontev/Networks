@@ -1,0 +1,176 @@
+!
+! Last configuration change at 06:28:52 UTC Sun Jul 25 2021
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+crypto ikev2 proposal PROPOSAL-1 
+ encryption aes-cbc-256
+ integrity sha512
+ group 24
+!
+crypto ikev2 policy POLICY-1 
+ proposal PROPOSAL-1
+!
+crypto ikev2 keyring KEYRING-1
+ peer REMOTE-NW
+  address 20.0.0.2
+  pre-shared-key cisco 
+  ! Trailing white space(s) in above preshared key
+ !
+!
+!
+crypto ikev2 profile PROFILE-1
+ match identity remote address 20.0.0.2 255.255.255.255 
+ identity local address 10.0.0.2
+ authentication remote pre-share
+ authentication local pre-share
+ keyring local KEYRING-1
+!
+!
+!
+crypto ipsec transform-set ESP-AES-SHA esp-aes esp-sha512-hmac 
+ mode tunnel
+!
+!
+!
+!
+crypto map LAB-VPN-2 10 ipsec-isakmp 
+ set peer 20.0.0.2
+ set transform-set ESP-AES-SHA 
+ set pfs group24
+ set ikev2-profile PROFILE-1
+ match address 101
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no shutdown
+ ip address 10.0.0.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+ crypto map LAB-VPN-2
+!
+interface GigabitEthernet0/1
+ no shutdown
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.0.0 0.0.0.3 area 0
+ network 192.168.1.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 ioam timestamp
+!
+!
+access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.2.0 0.0.0.255
+!
+control-plane
+!
+banner exec ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
