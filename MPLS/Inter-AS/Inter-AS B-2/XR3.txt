@@ -1,0 +1,150 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Wed Jul  5 17:43:33 2023 by toor
+!
+hostname XR3
+vrf CustA
+ address-family ipv4 unicast
+  import route-target
+   100:1000
+  !
+  export route-target
+   100:1000
+  !
+ !
+!
+vrf CustB
+ address-family ipv4 unicast
+  import route-target
+   100:1002
+  !
+  export route-target
+   100:1002
+  !
+ !
+!
+interface Loopback0
+ ipv4 address 10.3.3.3 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description to Customer
+ vrf CustA
+ ipv4 address 192.168.13.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to Customer
+ vrf CustB
+ ipv4 address 192.168.23.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to XR4
+ ipv4 address 172.16.34.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ description to XR5
+ ipv4 address 172.16.35.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ description to XR6
+ ipv4 address 172.16.36.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+route-policy RP_ALL
+  pass
+end-policy
+!
+router isis 1
+ is-type level-2-only
+ net 49.0000.0300.0300.3003.00
+ address-family ipv4 unicast
+  metric-style wide level 2
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+ !
+ interface Loopback0
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+!
+router bgp 100
+ bgp router-id 10.3.3.3
+ address-family ipv4 unicast
+ !
+ address-family vpnv4 unicast
+ !
+ neighbor 10.4.4.4
+  remote-as 100
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+ !
+ vrf CustA
+  rd 100:1
+  address-family ipv4 unicast
+  !
+  neighbor 192.168.13.1
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy RP_ALL in
+    route-policy RP_ALL out
+    as-override
+   !
+  !
+ !
+ vrf CustB
+  rd 100:2
+  address-family ipv4 unicast
+  !
+  neighbor 192.168.23.2
+   remote-as 65002
+   address-family ipv4 unicast
+    route-policy RP_ALL in
+    route-policy RP_ALL out
+    as-override
+   !
+  !
+ !
+!
+mpls ldp
+ router-id 10.3.3.3
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+end
