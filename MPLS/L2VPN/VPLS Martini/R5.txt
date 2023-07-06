@@ -1,0 +1,217 @@
+!
+! Last configuration change at 16:54:25 UTC Thu Jul 6 2023
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R5
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+mpls traffic-eng tunnels
+!
+!
+multilink bundle-name authenticated
+l2vpn vfi context vfi100
+ vpn id 100
+ member 10.1.1.1 encapsulation mpls
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2476174419
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2476174419
+ revocation-check none
+ rsakeypair TP-self-signed-2476174419
+!
+!
+crypto pki certificate chain TP-self-signed-2476174419
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9BD1QU8HT9E
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+bridge-domain 100
+ member GigabitEthernet2 service-instance 100
+ member GigabitEthernet3 service-instance 100
+ member vfi vfi100
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.5.5.5 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ ip rsvp bandwidth 4000 2000
+!
+interface GigabitEthernet1.3
+ description to XR3
+ encapsulation dot1Q 3
+ ip address 172.16.35.5 255.255.255.0
+ ip ospf 1 area 0
+ mpls ip
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet1.4
+ description to XR4
+ encapsulation dot1Q 4
+ ip address 172.16.45.5 255.255.255.0
+ ip ospf 1 area 0
+ mpls ip
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ service instance 100 ethernet
+  encapsulation default
+ !
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ service instance 100 ethernet
+  encapsulation default
+ !
+!
+interface GigabitEthernet4
+ no ip address
+ negotiation auto
+ no keepalive
+ no mop enabled
+ no mop sysid
+ service instance 10 ethernet
+  encapsulation dot1q 10
+ !
+ service instance 999 ethernet
+  encapsulation untagged
+ !
+!
+router ospf 1
+ router-id 10.5.5.5
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+mpls ldp router-id Loopback0
+l2vpn xconnect context tag10
+ member GigabitEthernet4 service-instance 10
+ member pseudowire10 10.2.2.2 10 encapsulation mpls
+!
+l2vpn xconnect context untagged
+ member GigabitEthernet4 service-instance 999
+ member pseudowire999 10.2.2.2 999 encapsulation mpls
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end

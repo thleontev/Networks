@@ -1,0 +1,190 @@
+!
+! Last configuration change at 16:54:24 UTC Thu Jul 6 2023
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+mpls traffic-eng tunnels
+!
+!
+multilink bundle-name authenticated
+l2vpn vfi context vfi100
+ vpn id 100
+ member 10.5.5.5 encapsulation mpls
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4112527147
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4112527147
+ revocation-check none
+ rsakeypair TP-self-signed-4112527147
+!
+!
+crypto pki certificate chain TP-self-signed-4112527147
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9J1DOTDA94M
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+bridge-domain 100
+ member GigabitEthernet3 service-instance 100
+ member vfi vfi100
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.1.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet1
+ description to XR3
+ ip address 172.16.13.1 255.255.255.0
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ no mop enabled
+ no mop sysid
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet2
+ description to XR4
+ ip address 172.16.14.1 255.255.255.0
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ no mop enabled
+ no mop sysid
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ service instance 100 ethernet
+  encapsulation default
+ !
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ router-id 10.1.1.1
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+mpls ldp router-id Loopback0
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end

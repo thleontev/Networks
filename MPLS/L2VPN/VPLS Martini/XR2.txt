@@ -1,0 +1,80 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Thu Jun 22 14:47:45 2023 by toor
+!
+hostname XR2
+interface Loopback0
+ ipv4 address 10.2.2.2 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description Customer B-HQ
+ ipv4 address 192.168.27.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0.10 l2transport
+ encapsulation dot1q 10
+ mtu 1514
+!
+interface GigabitEthernet0/0/0/0.999 l2transport
+ encapsulation untagged
+ mtu 1514
+!
+interface GigabitEthernet0/0/0/1
+ description to XR4
+ ipv4 address 172.16.24.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to XR3
+ ipv4 address 172.16.23.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospf 1
+ router-id 10.2.2.2
+ area 0
+  mpls traffic-eng
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+  interface GigabitEthernet0/0/0/2
+  !
+ !
+ mpls traffic-eng router-id Loopback0
+!
+rsvp
+ interface GigabitEthernet0/0/0/1
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+mpls ldp
+ router-id 10.2.2.2
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+end
