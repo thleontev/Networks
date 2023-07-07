@@ -1,0 +1,210 @@
+!
+! Last configuration change at 00:54:54 UTC Fri Jul 7 2023
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R8
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+mpls traffic-eng tunnels
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3825879579
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3825879579
+ revocation-check none
+ rsakeypair TP-self-signed-3825879579
+!
+!
+crypto pki certificate chain TP-self-signed-3825879579
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9KBRJPYP1EB
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.8.8.8 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet1
+ description to R7
+ ip address 172.16.78.8 255.255.255.0
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ no mop enabled
+ no mop sysid
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet2
+ description to R10
+ ip address 172.16.81.8 255.255.255.0
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ no mop enabled
+ no mop sysid
+ ip rsvp bandwidth 2000 1000
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ router-id 10.8.8.8
+ prefix-suppression
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+!
+router bgp 200
+ template peer-policy PP_PE
+  route-reflector-client
+  send-community both
+ exit-peer-policy
+ !
+ template peer-session PS_PE
+  remote-as 200
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.8.8.8
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.7.7.7 inherit peer-session PS_PE
+ neighbor 10.10.10.10 inherit peer-session PS_PE
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family vpnv4
+  neighbor 10.7.7.7 activate
+  neighbor 10.7.7.7 send-community extended
+  neighbor 10.7.7.7 inherit peer-policy PP_PE
+  neighbor 10.10.10.10 activate
+  neighbor 10.10.10.10 send-community extended
+  neighbor 10.10.10.10 inherit peer-policy PP_PE
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+mpls ldp router-id Loopback0
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end

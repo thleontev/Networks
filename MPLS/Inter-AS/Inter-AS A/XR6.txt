@@ -1,0 +1,143 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Thu Jun 29 15:56:39 2023 by toor
+!
+hostname XR6
+vrf CustA
+ address-family ipv4 unicast
+  import route-target
+   100:1000
+  !
+  export route-target
+   100:1000
+  !
+ !
+!
+interface Loopback0
+ ipv4 address 10.6.6.6 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ vrf CustA
+ ipv4 address 192.168.67.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ shutdown
+!
+interface GigabitEthernet0/0/0/2
+ description to R7
+ ipv4 address 172.16.46.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ description to XR5
+ ipv4 address 172.16.56.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ description to XR6
+ ipv4 address 172.16.36.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+rd-set 100:6
+end-set
+!
+route-policy RP_ALL
+  pass
+end-policy
+!
+router isis 1
+ is-type level-2-only
+ net 49.0000.0100.0600.6006.00
+ address-family ipv4 unicast
+  metric-style wide level 2
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+ !
+ interface Loopback0
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+!
+router bgp 100
+ bgp router-id 10.6.6.6
+ address-family vpnv4 unicast
+ !
+ neighbor 10.4.4.4
+  remote-as 100
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+ !
+ vrf CustA
+  rd 100:6
+  address-family ipv4 unicast
+  !
+  neighbor 192.168.67.7
+   remote-as 200
+   address-family ipv4 unicast
+    route-policy RP_ALL in
+    route-policy RP_ALL out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/3
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/4
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+mpls ldp
+ router-id 10.6.6.6
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+end
