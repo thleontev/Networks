@@ -1,0 +1,137 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Fri Jul  7 02:25:44 2023 by toor
+!
+hostname XR6
+interface Loopback0
+ ipv4 address 10.6.6.6 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 192.168.67.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ shutdown
+!
+interface GigabitEthernet0/0/0/2
+ description to R7
+ ipv4 address 172.16.46.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ description to XR5
+ ipv4 address 172.16.56.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ description to XR6
+ ipv4 address 172.16.36.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+route-policy RP_ALL
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  192.168.67.7/32 GigabitEthernet0/0/0/0
+ !
+!
+router isis 1
+ is-type level-2-only
+ net 49.0000.0100.0600.6006.00
+ address-family ipv4 unicast
+  metric-style wide level 2
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+  redistribute bgp 100 metric 15
+ !
+ interface Loopback0
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  suppressed
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+!
+router bgp 100
+ bgp router-id 10.6.6.6
+ address-family ipv4 unicast
+  network 10.3.3.3/32
+  network 10.4.4.4/32
+  allocate-label all
+ !
+ address-family vpnv4 unicast
+  retain route-target all
+ !
+ neighbor 10.4.4.4
+  remote-as 100
+  update-source Loopback0
+  address-family vpnv4 unicast
+   next-hop-self
+  !
+ !
+ neighbor 192.168.67.7
+  remote-as 200
+  address-family ipv4 labeled-unicast
+   route-policy RP_ALL in
+   route-policy RP_ALL out
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/3
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/4
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+mpls ldp
+ router-id 10.6.6.6
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+end
