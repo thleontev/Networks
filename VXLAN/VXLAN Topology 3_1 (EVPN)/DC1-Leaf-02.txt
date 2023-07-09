@@ -344,7 +344,6 @@ router ospf DC1-Underlay
 router bgp 65501
   log-neighbor-changes
   address-family ipv4 unicast
-    network 20.20.20.20/32
   address-family l2vpn evpn
   template peer TO_SPINES
     remote-as 65501
