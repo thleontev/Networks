@@ -19,7 +19,7 @@
         "drawings": [
             {
                 "drawing_id": "1cfa677b-e000-44ad-b4d3-ee39bd33f8f5",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"208\" height=\"34\"><text font-family=\"Cantarell\" font-size=\"16.0\" font-weight=\"bold\" fill=\"#000000\" fill-opacity=\"1.0\">Inter-AS / Option B-1</text></svg>",
                 "x": -747,
@@ -28,7 +28,7 @@
             },
             {
                 "drawing_id": "48dc12c7-f1cf-4615-90c9-f192a569dcfc",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"70\" height=\"48\"><text font-family=\"Cantarell\" font-size=\"12.0\" font-weight=\"bold\" fill=\"#000000\" fill-opacity=\"1.0\">ASN 100\n(IS-IS)</text></svg>",
                 "x": -379,
@@ -37,7 +37,7 @@
             },
             {
                 "drawing_id": "644f510f-e755-4e3d-8c50-c792c7967bab",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"72\" height=\"48\"><text font-family=\"Cantarell\" font-size=\"12.0\" font-weight=\"bold\" fill=\"#000000\" fill-opacity=\"1.0\">ASN 200\n(OSPF)</text></svg>",
                 "x": 90,
@@ -46,7 +46,7 @@
             },
             {
                 "drawing_id": "a9fa8f7f-ec72-4fc7-a39b-7000908e621f",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"461\" height=\"461\"><rect width=\"461\" height=\"461\" fill=\"#d3ffd5\" fill-opacity=\"1.0\" stroke-width=\"1\" stroke=\"#d3ffd5\" /></svg>",
                 "x": -583,
@@ -55,7 +55,7 @@
             },
             {
                 "drawing_id": "8b4f2a03-10ee-4a95-9196-c5f833417fbf",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"474\" height=\"461\"><rect width=\"474\" height=\"461\" fill=\"#d2eeff\" fill-opacity=\"1.0\" stroke-width=\"1\" stroke=\"#d2eeff\" /></svg>",
                 "x": -114,
@@ -64,7 +64,7 @@
             },
             {
                 "drawing_id": "4c2d6f25-a92a-4561-9a9a-753d729a89fe",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"72\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">CustA\nASN 65001</text></svg>",
                 "x": -775,
@@ -73,7 +73,7 @@
             },
             {
                 "drawing_id": "062c47af-c120-47f1-b9c6-3493fddd55fd",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"72\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">CustA\nASN 65001</text></svg>",
                 "x": 457,
@@ -82,7 +82,7 @@
             },
             {
                 "drawing_id": "4c7c85e0-930c-4612-bc24-92deb0799916",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"28\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">RR</text></svg>",
                 "x": -390,
@@ -91,7 +91,7 @@
             },
             {
                 "drawing_id": "42f2549e-bc0d-4bf7-9b9f-01595ad0c85f",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"28\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">RR</text></svg>",
                 "x": 125,
@@ -100,7 +100,7 @@
             },
             {
                 "drawing_id": "cbcf7236-661f-4a93-bd7b-d106a846d957",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"73\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">CustB\nASN 65002</text></svg>",
                 "x": -771,
@@ -109,7 +109,7 @@
             },
             {
                 "drawing_id": "f41e9238-857f-4030-bee8-553412eb3ecf",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"73\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">CustB\nASN 65002</text></svg>",
                 "x": 465,
@@ -118,7 +118,7 @@
             },
             {
                 "drawing_id": "fcf92e4c-32af-4932-a0d5-679ed13036b4",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"130\" height=\"117\"><line x1=\"0\" x2=\"130\" y1=\"0\" y2=\"117\" stroke-dasharray=\"5, 25, 25\" stroke-width=\"1\" stroke=\"#dc8add\" /></svg>",
                 "x": -362,
@@ -127,7 +127,7 @@
             },
             {
                 "drawing_id": "7cc2290f-5548-4d50-9dc6-6d1f9ccbd131",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"132\" height=\"114\"><line x1=\"0\" x2=\"-132\" y1=\"0\" y2=\"114\" stroke-dasharray=\"5, 25, 25\" stroke-width=\"1\" stroke=\"#613583\" /></svg>",
                 "x": -386,
@@ -136,7 +136,7 @@
             },
             {
                 "drawing_id": "489ee20c-f6c3-4d26-b353-4ec06fe65dd1",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"121\" height=\"113\"><line x1=\"0\" x2=\"121\" y1=\"0\" y2=\"-113\" stroke-dasharray=\"5, 25, 25\" stroke-width=\"1\" stroke=\"#613583\" /></svg>",
                 "x": 3,
@@ -145,7 +145,7 @@
             },
             {
                 "drawing_id": "b35db49f-8dac-4930-8e3c-96c690dd3f26",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"132\" height=\"117\"><line x1=\"0\" x2=\"132\" y1=\"0\" y2=\"117\" stroke-dasharray=\"5, 25, 25\" stroke-width=\"1\" stroke=\"#613583\" /></svg>",
                 "x": 156,
@@ -154,7 +154,7 @@
             },
             {
                 "drawing_id": "c01f454d-3de1-4a1d-b780-34f8e713b52b",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"26\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">PE</text></svg>",
                 "x": 285,
@@ -163,7 +163,7 @@
             },
             {
                 "drawing_id": "7e7b073d-9085-42bc-8743-231026fcd644",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"26\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">PE</text></svg>",
                 "x": -540,
@@ -172,16 +172,16 @@
             },
             {
                 "drawing_id": "1feeb337-e8a4-4114-a261-49ad63728cbf",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
-                "svg": "<svg width=\"100\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#613583\" fill-opacity=\"1.0\">MP-eBGP\n(Next-Hop-Self)</text></svg>",
-                "x": -159,
-                "y": -123,
+                "svg": "<svg width=\"100\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#613583\" fill-opacity=\"1.0\">MP-BGP\n(Next-Hop-Self)</text></svg>",
+                "x": -163,
+                "y": -207,
                 "z": 2
             },
             {
                 "drawing_id": "78d6bc27-5387-4689-9997-acae78e45eab",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"47\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">ASBR</text></svg>",
                 "x": -251,
@@ -190,12 +190,21 @@
             },
             {
                 "drawing_id": "1cb3a2c9-6876-49f0-b736-1a3f6df70181",
-                "locked": true,
+                "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"47\" height=\"25\"><text font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\" fill=\"#ffffff\" fill-opacity=\"1.0\">ASBR</text></svg>",
                 "x": -30,
                 "y": -164,
                 "z": 2
+            },
+            {
+                "drawing_id": "08e46acc-671f-4ca0-9a6d-b6fdf0556e80",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"159\" height=\"0\"><line x1=\"0\" x2=\"159\" y1=\"0\" y2=\"0\" stroke-dasharray=\"5, 25, 25\" stroke-width=\"1\" stroke=\"#613583\" /></svg>",
+                "x": -196,
+                "y": -168,
+                "z": 1
             }
         ],
         "links": [
@@ -696,7 +705,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR1",
                 "node_id": "e7e67ac9-014f-4c34-999e-fc49e20d4c09",
                 "node_type": "qemu",
@@ -765,7 +774,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR2",
                 "node_id": "c4826d86-5c5b-4093-92c3-c2a0b02a3bda",
                 "node_type": "qemu",
@@ -834,7 +843,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR3",
                 "node_id": "a49e7479-1ba4-4153-8397-6cb2ce37c629",
                 "node_type": "qemu",
@@ -890,7 +899,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5030,
+                "console": 5015,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -903,7 +912,7 @@
                     "x": 18,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR4",
                 "node_id": "8e3043b4-bbbd-4fc7-b798-bf0203086fdd",
                 "node_type": "qemu",
@@ -959,7 +968,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5032,
+                "console": 5017,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -972,7 +981,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR5",
                 "node_id": "6ac9f07b-ced3-45ca-9593-d1ebaa5c605a",
                 "node_type": "qemu",
@@ -1041,7 +1050,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "XR6",
                 "node_id": "d15f6939-b98d-4a21-ad04-5921e38dd160",
                 "node_type": "qemu",
@@ -1097,7 +1106,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5036,
+                "console": 5020,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1110,7 +1119,7 @@
                     "x": 19,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R7",
                 "node_id": "f6e9d2b2-e7c2-4e34-9f65-bec95e77d266",
                 "node_type": "qemu",
@@ -1166,7 +1175,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5038,
+                "console": 5022,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1179,7 +1188,7 @@
                     "x": 19,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R8",
                 "node_id": "dace4aa7-acf8-4c47-8c81-e031e0e31ed7",
                 "node_type": "qemu",
@@ -1235,7 +1244,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5040,
+                "console": 5025,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1248,7 +1257,7 @@
                     "x": 19,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R9",
                 "node_id": "39f2cfbb-f518-492b-8829-b6ee0d2d6cee",
                 "node_type": "qemu",
@@ -1304,7 +1313,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5042,
+                "console": 5029,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1317,7 +1326,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R10",
                 "node_id": "9688ec26-d5b9-41c7-a546-1375564d0957",
                 "node_type": "qemu",
@@ -1373,7 +1382,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5044,
+                "console": 5037,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1386,7 +1395,7 @@
                     "x": 14,
                     "y": -25
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R11",
                 "node_id": "8e4323d7-3729-421a-8511-247d77d08b21",
                 "node_type": "qemu",
@@ -1442,7 +1451,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5046,
+                "console": 5045,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1455,7 +1464,7 @@
                     "x": 13,
                     "y": -28
                 },
-                "locked": true,
+                "locked": false,
                 "name": "R12",
                 "node_id": "593d2660-6546-487d-ba87-0ed47d114876",
                 "node_type": "qemu",
