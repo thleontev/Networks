@@ -1,5 +1,5 @@
 !Command: show running-config
-!Time: Sun Jul  9 08:40:34 2023
+!Time: Wed Jul 12 16:46:19 2023
 
 version 7.3(0)D1(1)
 power redundancy-mode redundant
@@ -61,7 +61,7 @@ interface mgmt0
 
 interface nve1
   no shutdown
-  source-interface loopback0
+  source-interface loopback1
   member vni 10010
     mcast-group 224.1.1.10
   member vni 10020
@@ -802,6 +802,11 @@ interface Ethernet4/48
 interface loopback0
   ip address 10.0.0.1/32
   ip ospf network point-to-point
+  ip router ospf DC1-Underlay area 0.0.0.0
+  ip pim sparse-mode
+
+interface loopback1
+  ip address 10.10.10.1/32
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
 line console
