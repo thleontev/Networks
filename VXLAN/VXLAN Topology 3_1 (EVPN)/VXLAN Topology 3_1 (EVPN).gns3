@@ -85,8 +85,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"96\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo0: 10.0.0.1/32</text></svg>",
-                "x": -697,
-                "y": -101,
+                "x": -695,
+                "y": -110,
                 "z": 2
             },
             {
@@ -94,8 +94,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"97\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo0: 10.0.0.2/32</text></svg>",
-                "x": -384,
-                "y": -102,
+                "x": -381,
+                "y": -123,
                 "z": 2
             },
             {
@@ -103,8 +103,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"98\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo0: 10.0.0.3/32</text></svg>",
-                "x": -73,
-                "y": -98,
+                "x": -74,
+                "y": -119,
                 "z": 2
             },
             {
@@ -150,6 +150,42 @@
                 "svg": "<svg width=\"86\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">192.168.20.14</text></svg>",
                 "x": -147,
                 "y": 156,
+                "z": 2
+            },
+            {
+                "drawing_id": "539d7546-75e3-4d55-96c7-7637630fb5d2",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"106\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo1: 10.10.10.3/32</text></svg>",
+                "x": -72,
+                "y": -99,
+                "z": 2
+            },
+            {
+                "drawing_id": "5c0ce4de-0394-47c9-8fcc-3e41fd6fb05a",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"106\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo1: 10.10.10.2/32</text></svg>",
+                "x": -383,
+                "y": -105,
+                "z": 2
+            },
+            {
+                "drawing_id": "63377ae8-caa1-4dc1-a858-ed753cc19d30",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"104\" height=\"24\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">lo1: 10.10.10.1/32</text></svg>",
+                "x": -696,
+                "y": -95,
+                "z": 2
+            },
+            {
+                "drawing_id": "f7da1767-f2bf-4918-ad14-b89b6b879907",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"224\" height=\"104\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">loader &gt; boot bootflash:nxos.9.3.1.bin\n\nconf t\nboot nxos bootflash:nxos.9.3.1.bin\nend\ncopy run start</text></svg>",
+                "x": -967,
+                "y": -356,
                 "z": 2
             }
         ],
@@ -521,7 +557,7 @@
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                     "text": "DC1-Spine-01",
                     "x": -28,
-                    "y": -25
+                    "y": -26
                 },
                 "locked": false,
                 "name": "DC1-Spine-01",
@@ -574,7 +610,7 @@
                 "template_id": "083592eb-4fd4-49a1-8c75-cc3a31b46c9f",
                 "width": 51,
                 "x": -599,
-                "y": -346,
+                "y": -348,
                 "z": 1
             },
             {
@@ -712,7 +748,7 @@
                 "template_id": "083592eb-4fd4-49a1-8c75-cc3a31b46c9f",
                 "width": 51,
                 "x": -436,
-                "y": -123,
+                "y": -124,
                 "z": 1
             },
             {
@@ -850,7 +886,7 @@
                 "template_id": "083592eb-4fd4-49a1-8c75-cc3a31b46c9f",
                 "width": 51,
                 "x": -750,
-                "y": -123,
+                "y": -124,
                 "z": 1
             },
             {
@@ -884,7 +920,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5012,
+                "console": 5029,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -913,7 +949,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5014,
+                "console": 5032,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -942,7 +978,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5016,
+                "console": 5035,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -971,7 +1007,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5018,
+                "console": 5038,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],

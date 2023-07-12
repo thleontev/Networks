@@ -1,6 +1,6 @@
 !Command: show running-config
-!Running configuration last done at: Sun Jul  9 15:24:16 2023
-!Time: Sun Jul  9 16:13:05 2023
+!Running configuration last done at: Wed Jul 12 17:31:47 2023
+!Time: Wed Jul 12 17:36:14 2023
 
 version 9.3(1) Bios:version
 hostname DC1-Leaf-03
@@ -24,6 +24,7 @@ no password strength-check
 username admin password 5 $5$QaXUcGTM$kJ2BNV3m3keQtE75N5i3emNN1FG8qy6fOJjv.dAS61
 D  role network-admin
 ip domain-lookup
+copp profile strict
 snmp-server user admin network-admin auth md5 0xd56639cb1877243212d83887f8524ae9
  priv 0xd56639cb1877243212d83887f8524ae9 localizedkey
 rmon event 1 description FATAL(1) owner PMON@FATAL
@@ -47,7 +48,7 @@ vrf context management
 interface nve1
   no shutdown
   host-reachability protocol bgp
-  source-interface loopback0
+  source-interface loopback1
   member vni 10010
     mcast-group 224.1.1.10
   member vni 10020
@@ -336,13 +337,19 @@ interface loopback0
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
+
+interface loopback1
+  ip address 10.10.10.3/32
+  ip pim sparse-mode
 line console
 line vty
+boot nxos bootflash:/nxos.9.3.1.bin
 router ospf DC1-Underlay
   router-id 10.0.0.3
 router bgp 65501
   log-neighbor-changes
   address-family ipv4 unicast
+    network 10.10.10.3/32
   address-family l2vpn evpn
   template peer TO_SPINES
     remote-as 65501
