@@ -1,0 +1,25 @@
+hostname SW3
+no spanning-tree
+
+errordisable recovery interval 30
+errordisable recovery cause link-flapping
+
+! for test
+! link-flapping disable
+
+erps
+erps vlan 10
+ ring enable
+ port west gi1/0/47
+ port east gi1/0/48
+ protected vlan add 20,30,40
+ rpl west neighbor
+ exit
+
+interface range gi1/0/47, gi1/0/48
+ switchport mode trunk
+ switchport trunk allowed vlan add 10,20,30,40
+ switchport forbidden default-vlan
+ exit
+ 
+spanning-tree bpdu filtering
