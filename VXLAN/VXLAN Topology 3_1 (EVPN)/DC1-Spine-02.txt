@@ -1,6 +1,6 @@
 !Command: show running-config
-!Running configuration last done at: Sun Jul  9 15:16:17 2023
-!Time: Sun Jul  9 16:10:59 2023
+!Running configuration last done at: Sat Jul 15 09:30:00 2023
+!Time: Sat Jul 15 16:14:35 2023
 
 version 9.3(1) Bios:version
 hostname DC1-Spine-02
@@ -17,11 +17,14 @@ nv overlay evpn
 feature ospf
 feature bgp
 feature pim
+feature bfd
 feature nv overlay
 
 username admin password 5 $5$tjyV2vWt$qwrhaMbdYwHDjIthGU4UAqqDMlx8S/P4yBfVnutNgl
 6  role network-admin
 ip domain-lookup
+copp profile strict
+bfd interval 500 min_rx 500 multiplier 3
 snmp-server user admin network-admin auth md5 0x4fc7b649856102ae008eef6965c9e198
  priv 0x4fc7b649856102ae008eef6965c9e198 localizedkey
 rmon event 1 description FATAL(1) owner PMON@FATAL
@@ -42,7 +45,9 @@ interface Ethernet1/1
   description TO_DC1_LEAF1_ETH1/2
   no switchport
   mtu 9000
+  no ip redirects
   ip address 10.2.1.2/30
+  no ipv6 redirects
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
@@ -52,7 +57,9 @@ interface Ethernet1/2
   description TO_DC1_LEAF2_ETH1/2
   no switchport
   mtu 9000
+  no ip redirects
   ip address 10.2.2.2/30
+  no ipv6 redirects
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
@@ -62,7 +69,9 @@ interface Ethernet1/3
   description TO_DC1_LEAF3_ETH1/2
   no switchport
   mtu 9000
+  no ip redirects
   ip address 10.2.3.2/30
+  no ipv6 redirects
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
@@ -334,6 +343,7 @@ interface loopback1
   ip pim sparse-mode
 line console
 line vty
+boot nxos bootflash:/nxos.9.3.1.bin
 router ospf DC1-Underlay
   router-id 10.2.0.1
 router bgp 65501

@@ -21,8 +21,8 @@
                 "drawing_id": "bb9adb51-7b9c-4742-9e8a-9a32ba95c17e",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg width=\"110\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#613583\" fill-opacity=\"1.0\">Underlay\n(OSPF+PIM+BGP)</text></svg>",
-                "x": -467,
+                "svg": "<svg width=\"110\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">Underlay\n(OSPF+PIM+BGP)</text></svg>",
+                "x": -465,
                 "y": -217,
                 "z": 2
             },
@@ -30,7 +30,7 @@
                 "drawing_id": "5b82c0f4-d3ed-4c66-8903-d7efabcb1572",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg width=\"280\" height=\"34\"><text font-family=\"Cantarell\" font-size=\"16.0\" font-weight=\"bold\" fill=\"#000000\" fill-opacity=\"1.0\">VXLAN Topology 3_1 (EVPN)</text></svg>",
+                "svg": "<svg width=\"409\" height=\"34\"><text font-family=\"Cantarell\" font-size=\"16.0\" font-weight=\"bold\" fill=\"#000000\" fill-opacity=\"1.0\">VXLAN Topology 3_1 (EVPN L2VNI/L3VNI)</text></svg>",
                 "x": -970,
                 "y": -478,
                 "z": 2
@@ -67,8 +67,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"108\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">IP format:\ndc.spine.leaf.x/32</text></svg>",
-                "x": -73,
-                "y": -347,
+                "x": -84,
+                "y": -346,
                 "z": 2
             },
             {
@@ -76,7 +76,7 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg width=\"111\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">NXOS\nadmin/P@ssw0rd</text></svg>",
-                "x": -74,
+                "x": -85,
                 "y": -298,
                 "z": 2
             },
@@ -183,9 +183,63 @@
                 "drawing_id": "f7da1767-f2bf-4918-ad14-b89b6b879907",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg width=\"224\" height=\"104\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">loader &gt; boot bootflash:nxos.9.3.1.bin\n\nconf t\nboot nxos bootflash:nxos.9.3.1.bin\nend\ncopy run start</text></svg>",
+                "svg": "<svg width=\"224\" height=\"88\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">loader &gt; boot bootflash:nxos.9.3.1.bin\nconf t\nboot nxos bootflash:nxos.9.3.1.bin\nend\ncopy run start</text></svg>",
                 "x": -967,
                 "y": -356,
+                "z": 2
+            },
+            {
+                "drawing_id": "e6701497-5a91-454f-b6ff-e668d1de4614",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"101\" height=\"56\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">L2VNI 10010\nL3VNI 50000\nMcast 224.1.1.10</text></svg>",
+                "x": -863,
+                "y": -45,
+                "z": 2
+            },
+            {
+                "drawing_id": "7beee689-0943-4ad5-a103-67b01b204700",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"101\" height=\"56\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">L2VNI 10010\nL3VNI 50000\nMcast 224.1.1.10</text></svg>",
+                "x": -680,
+                "y": -47,
+                "z": 2
+            },
+            {
+                "drawing_id": "7b585215-9ac8-4c0e-9468-8ac6703f7bbc",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"101\" height=\"56\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">L2VNI 10010\nL3VNI 50000\nMcast 224.1.1.10</text></svg>",
+                "x": -575,
+                "y": -2,
+                "z": 2
+            },
+            {
+                "drawing_id": "8459e004-145f-4bc4-a5ae-fd3ce2e9f66b",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"99\" height=\"56\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">L2VNI 10020\nL3VNI 50000\nMcast 224.1.120</text></svg>",
+                "x": -345,
+                "y": -8,
+                "z": 2
+            },
+            {
+                "drawing_id": "03deaaf7-32f1-46b3-b329-89cb732cd18d",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"102\" height=\"40\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#000000\" fill-opacity=\"1.0\">L2VNI 10020\nMcast 224.1.1.20</text></svg>",
+                "x": -94,
+                "y": -7,
+                "z": 2
+            },
+            {
+                "drawing_id": "1bdeccb1-06b2-4511-bd74-6cce1af0aa79",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg width=\"179\" height=\"56\"><text font-family=\"Cantarell\" font-size=\"10.0\" fill=\"#613583\" fill-opacity=\"1.0\">VLAN 10 -&gt; VXLAN NVI 10010\nVLAN 20 -&gt; VXLAN NVI 10020\nVRF TENANT1 -&gt; L3VNI 5000</text></svg>",
+                "x": -512,
+                "y": 207,
                 "z": 2
             }
         ],
@@ -546,7 +600,7 @@
         "nodes": [
             {
                 "compute_id": "local",
-                "console": 5000,
+                "console": 5017,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -609,13 +663,13 @@
                 "symbol": ":/symbols/multilayer_switch.svg",
                 "template_id": "083592eb-4fd4-49a1-8c75-cc3a31b46c9f",
                 "width": 51,
-                "x": -599,
+                "x": -603,
                 "y": -348,
                 "z": 1
             },
             {
                 "compute_id": "local",
-                "console": 5002,
+                "console": 5019,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -684,7 +738,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5004,
+                "console": 5021,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -753,7 +807,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5006,
+                "console": 5024,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -822,7 +876,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5008,
+                "console": 5026,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -891,7 +945,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5010,
+                "console": 5029,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -920,7 +974,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5029,
+                "console": 5031,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -949,7 +1003,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5032,
+                "console": 5033,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -978,7 +1032,7 @@
             },
             {
                 "compute_id": "local",
-                "console": 5035,
+                "console": 5036,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -1030,8 +1084,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": -131,
-                "y": 69,
+                "x": -134,
+                "y": 68,
                 "z": 1
             }
         ]

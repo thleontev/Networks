@@ -1,6 +1,6 @@
 !Command: show running-config
-!Running configuration last done at: Wed Jul 12 17:31:22 2023
-!Time: Wed Jul 12 17:35:48 2023
+!Running configuration last done at: Sat Jul 15 15:54:01 2023
+!Time: Sat Jul 15 16:15:40 2023
 
 version 9.3(1) Bios:version
 hostname DC1-Leaf-02
@@ -17,7 +17,9 @@ nv overlay evpn
 feature ospf
 feature bgp
 feature pim
+feature interface-vlan
 feature vn-segment-vlan-based
+feature bfd
 feature nv overlay
 
 no password strength-check
@@ -25,6 +27,7 @@ username admin password 5 $5$mO3cLSNP$wkPYcoDWjWLmxigY/9dnsqDIUvt5Oa0vm/BnBFJLtr
 4  role network-admin
 ip domain-lookup
 copp profile strict
+bfd interval 100 min_rx 100 multiplier 3
 snmp-server user admin network-admin auth md5 0xd0c64cfa3ea86b1d1b817fb6f9703217
  priv 0xd0c64cfa3ea86b1d1b817fb6f9703217 localizedkey
 rmon event 1 description FATAL(1) owner PMON@FATAL
@@ -33,17 +36,54 @@ rmon event 3 description ERROR(3) owner PMON@ERROR
 rmon event 4 description WARNING(4) owner PMON@WARNING
 rmon event 5 description INFORMATION(5) owner PMON@INFO
 
+fabric forwarding anycast-gateway-mac 0000.1234.5678
 ip pim rp-address 10.1.10.2 group-list 224.0.0.0/4 bidir
 ip pim ssm range 232.0.0.0/8
-vlan 1,10,20,30
+vlan 1,10,20,30,500
 vlan 10
   vn-segment 10010
 vlan 20
   vn-segment 10020
 vlan 30
   vn-segment 10030
+vlan 500
+  vn-segment 50000
 
+route-map Overlay_Subnets permit 10
+  match tag 56363
+vrf context TENANT1
+  vni 50000
+  ip pim ssm range 232.0.0.0/8
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
 vrf context management
+
+
+interface Vlan1
+
+interface Vlan10
+  no shutdown
+  mtu 9150
+  vrf member TENANT1
+  ip address 192.168.10.1/24 tag 56363
+  ip pim sparse-mode
+  fabric forwarding mode anycast-gateway
+
+interface Vlan20
+  no shutdown
+  mtu 9150
+  vrf member TENANT1
+  ip address 192.168.20.1/24 tag 56363
+  ip pim sparse-mode
+  fabric forwarding mode anycast-gateway
+
+interface Vlan500
+  no shutdown
+  mtu 9000
+  vrf member TENANT1
+  ip forward
 
 interface nve1
   no shutdown
@@ -55,12 +95,16 @@ interface nve1
     mcast-group 224.1.1.20
   member vni 10030
     mcast-group 224.1.1.30
+  member vni 50000 associate-vrf
+  member vni 100020
 
 interface Ethernet1/1
   description TO_DC1_SPINE1_ETH1/2
   no switchport
   mtu 9000
+  no ip redirects
   ip address 10.1.2.1/30
+  no ipv6 redirects
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
@@ -70,7 +114,9 @@ interface Ethernet1/2
   description TO_DC1_SPINE2_ETH1/2
   no switchport
   mtu 9000
+  no ip redirects
   ip address 10.2.2.1/30
+  no ipv6 redirects
   ip ospf network point-to-point
   ip router ospf DC1-Underlay area 0.0.0.0
   ip pim sparse-mode
@@ -365,6 +411,9 @@ router bgp 65501
     inherit peer TO_SPINES
   neighbor 10.2.0.1
     inherit peer TO_SPINES
+  vrf TENANT1
+    address-family ipv4 unicast
+      redistribute direct route-map Overlay_Subnets
 evpn
   vni 10010 l2
     rd auto
