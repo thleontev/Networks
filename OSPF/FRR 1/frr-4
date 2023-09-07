@@ -1,0 +1,20 @@
+Current configuration:
+!
+frr version 8.2.2
+frr defaults traditional
+hostname frr-4
+service integrated-vtysh-config
+!
+interface eth0
+ ip address 192.168.5.44/24
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 123
+ ip ospf priority 0
+exit
+!
+router ospf
+ ospf router-id 44.44.44.44
+ network 192.168.5.0/24 area 2
+exit
+!
+end

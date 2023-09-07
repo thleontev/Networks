@@ -1,0 +1,18 @@
+Current configuration:
+!
+frr version 8.2.2
+frr defaults traditional
+hostname frr-2
+service integrated-vtysh-config
+!
+interface eth0
+ ip address 192.168.2.22/24
+ ip ospf priority 0
+exit
+!
+router ospf
+ ospf router-id 22.22.22.22
+ network 192.168.2.0/24 area 0
+exit
+!
+end
