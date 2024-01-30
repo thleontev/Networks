@@ -1,0 +1,202 @@
+!
+! Last configuration change at 18:23:23 UTC Tue Jan 30 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-126931016
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-126931016
+ revocation-check none
+ rsakeypair TP-self-signed-126931016
+!
+!
+crypto pki certificate chain TP-self-signed-126931016
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 985YT2WCYQI
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto isakmp policy 1
+ encr 3des
+ hash md5
+ authentication pre-share
+ group 2
+!
+crypto isakmp policy 10
+ encr aes
+ hash sha512
+ authentication pre-share
+ group 24
+crypto isakmp key 123 address 0.0.0.0
+!
+!
+crypto ipsec transform-set TS esp-3des esp-md5-hmac
+ mode tunnel
+crypto ipsec transform-set ESP-AES-SHA esp-aes esp-sha-hmac
+ mode tunnel
+!
+!
+!
+crypto dynamic-map hq-vpn 10
+ set security-association lifetime seconds 86400
+ set transform-set TS
+ match address VPN1-TRAFFIC
+crypto dynamic-map hq-vpn 11
+ set security-association lifetime seconds 86400
+ set transform-set TS
+ match address VPN2-TRAFFIC
+!
+!
+crypto map VPN 1 ipsec-isakmp dynamic hq-vpn
+crypto map VPN 10 ipsec-isakmp
+ set peer 75.100.100.4
+ set transform-set ESP-AES-SHA
+ match address VPN3-TRAFFIC
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet1
+ ip address 74.90.200.5 255.0.0.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ crypto map VPN
+!
+interface GigabitEthernet2
+ ip address 10.10.10.1 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet1
+!
+!
+!
+ip access-list extended VPN1-TRAFFIC
+ permit ip 10.10.10.0 0.0.0.255 20.20.20.0 0.0.0.255
+ip access-list extended VPN2-TRAFFIC
+ permit ip 10.10.10.0 0.0.0.255 30.30.30.0 0.0.0.255
+ip access-list extended VPN3-TRAFFIC
+ permit ip 10.10.10.0 0.0.0.255 40.40.40.0 0.0.0.255
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1
+ login
+ length 0
+line vty 2 4
+ login
+!
+!
+!
+!
+!
+!
+end
