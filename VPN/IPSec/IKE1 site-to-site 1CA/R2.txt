@@ -1,8 +1,13 @@
+Current configuration : 1669 bytes
 !
-version 15.5
+! Last configuration change at 13:29:20 UTC Sat Feb 3 2024
+!
+version 16.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
 !
 hostname R2
 !
@@ -12,15 +17,6 @@ boot-end-marker
 !
 !
 no aaa new-model
-ethernet lmi ce
-!
-!
-!
-no process cpu autoprofile hog
-mmi polling-interval 60
-no mmi auto-configure
-no mmi pvc
-mmi snmp-timeout 180
 !
 !
 !
@@ -32,8 +28,19 @@ mmi snmp-timeout 180
 !
 !
 !
-ip cef
-no ipv6 cef
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
 !
 multilink bundle-name authenticated
 !
@@ -41,11 +48,32 @@ multilink bundle-name authenticated
 !
 !
 !
+crypto pki trustpoint TP-self-signed-1301731393
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1301731393
+ revocation-check none
+ rsakeypair TP-self-signed-1301731393
+!
+!
+crypto pki certificate chain TP-self-signed-1301731393
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9MNV70SJDOD
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
 redundancy
 !
-no cdp run
-!
-! 
 !
 !
 !
@@ -58,89 +86,80 @@ no cdp run
 !
 !
 !
-interface GigabitEthernet0/0
- no shutdown
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet1
  ip address 10.0.0.1 255.255.255.252
- duplex auto
- speed auto
- media-type rj45
- no cdp enable
+ negotiation auto
+ no mop enabled
+ no mop sysid
 !
-interface GigabitEthernet0/1
- no shutdown
+interface GigabitEthernet2
  ip address 20.0.0.1 255.255.255.252
- duplex auto
- speed auto
- media-type rj45
- no cdp enable
+ negotiation auto
+ no mop enabled
+ no mop sysid
 !
-interface GigabitEthernet0/2
- no shutdown
+interface GigabitEthernet3
  no ip address
  shutdown
- duplex auto
- speed auto
- media-type rj45
- no cdp enable
+ negotiation auto
+ no mop enabled
+ no mop sysid
 !
-interface GigabitEthernet0/3
- no shutdown
+interface GigabitEthernet4
  no ip address
  shutdown
- duplex auto
- speed auto
- media-type rj45
- no cdp enable
+ negotiation auto
+ no mop enabled
+ no mop sysid
 !
 router ospf 1
  network 10.0.0.0 0.0.0.3 area 0
  network 20.0.0.0 0.0.0.3 area 0
 !
+!
+virtual-service csr_mgmt
+!
 ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
 !
 !
-no ip http server
-no ip http secure-server
 !
 !
 !
 !
 control-plane
 !
-banner exec ^CC
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
-banner incoming ^CC
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
-banner login ^CC
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
+!
+!
+!
+!
 !
 line con 0
-line aux 0
-line vty 0 4
+ stopbits 1
+line vty 0
  login
- transport input none
+line vty 1
+ login
+ length 0
+line vty 2 4
+ login
 !
-no scheduler allocate
+!
+!
+!
+!
 !
 end
+
