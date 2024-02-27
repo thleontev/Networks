@@ -29,7 +29,7 @@ DNA (Do Not Age) is set on updates received across the virtual link
 VLs are configured between routers IDs, not IP addresses
 
 
-### Adjust OSPF Timers
+### Timers
 
 One of the easiest ways to increase OSPF perfomance is to adjust its default timers
 
@@ -49,4 +49,29 @@ The other timers on the router can also be optimized
 - Manually
 - Automatically using “routing-default-optimeze”
   - On by default in IOS XE 16.5.1b
+
+### NSF & NSR
+Non-Stop Forwarding (NSF) and Non-Stop Routing (NSR) are both technologies to aid with stability during RP switchovers
+
+NSF - Allows forwading to continue using known routes. There are Cisco and IETF versions.
+
+Routers fall into three categories:
+- NSF Capable
+  - Dual RP
+  - Relearns OSPF neighbors without causing neighbor resets
+  - Requires the LSDB
+  - Signal (link-local LSA) other routers that a failover is occuring
+- NSF Aware
+  - Recognizes the signal from the failing router
+  - Preserves the OSPF LSDB and routing table
+  - Rebuilds neighborship without a reset
+- Non-NSF Aware
+  - Do not participate in NSF
+  - After the failover OSPF must be reestablished as normal
+
+NSR - Allows Failover, process restart, or ISSU without effecting neighbors
+Use warm standby extensions
+- Standby OSPF process is run on the standby RP
+
+NSR alleviates the requirement for NSF
 
