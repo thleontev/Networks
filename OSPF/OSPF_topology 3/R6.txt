@@ -1,0 +1,181 @@
+Current configuration : 2228 bytes
+!
+! Last configuration change at 00:48:32 UTC Tue Feb 27 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+key chain OSPF_KEY
+ key 1
+  key-string cisco
+   cryptographic-algorithm hmac-sha-512
+!
+crypto pki trustpoint TP-self-signed-2649357418
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2649357418
+ revocation-check none
+ rsakeypair TP-self-signed-2649357418
+!
+!
+crypto pki certificate chain TP-self-signed-2649357418
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9KHWN2EXZFS
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.6.6.6 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 50.0.167.6 255.255.255.0
+ ip ospf message-digest-key 1 md5 cisco
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.2.61.6 255.255.255.0
+ ip ospf authentication key-chain OSPF_KEY
+ ip ospf dead-interval minimal hello-multiplier 4
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ router-id 10.6.6.6
+ area 0 authentication message-digest
+ area 200 range 100.100.0.0 255.255.0.0 cost 100
+ area 200 virtual-link 10.10.10.10 authentication message-digest
+ area 200 virtual-link 10.10.10.10 message-digest-key 1 md5 cisco
+ network 10.6.6.6 0.0.0.0 area 0
+ network 50.0.167.0 0.0.0.255 area 0
+ network 50.2.61.0 0.0.0.255 area 200
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1
+ login
+ length 0
+line vty 2 4
+ login
+!
+!
+!
+!
+!
+!
+end

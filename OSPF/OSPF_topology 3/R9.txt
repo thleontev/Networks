@@ -1,0 +1,181 @@
+Current configuration : 1991 bytes
+!
+! Last configuration change at 00:48:38 UTC Tue Feb 27 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R9
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-707911938
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-707911938
+ revocation-check none
+ rsakeypair TP-self-signed-707911938
+!
+!
+crypto pki certificate chain TP-self-signed-707911938
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9T6YXLJASA0
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.9.9.9 255.255.255.255
+!
+interface Loopback1
+ ip address 200.200.200.9 255.255.255.0
+!
+interface Loopback2
+ ip address 200.200.210.9 255.255.255.0
+!
+interface Loopback3
+ ip address 200.200.220.9 255.255.255.0
+!
+interface Loopback4
+ ip address 200.200.230.9 255.255.255.0
+!
+interface GigabitEthernet1
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.1.29.9 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ router-id 10.9.9.9
+ network 10.9.9.9 0.0.0.0 area 1000
+ network 50.1.29.0 0.0.0.255 area 1000
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end

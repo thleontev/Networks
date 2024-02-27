@@ -1,0 +1,56 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Sun Feb 25 19:07:55 2024 by toor
+!
+hostname XR3
+interface Loopback0
+ ipv4 address 10.3.3.3 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 172.16.34.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 172.16.135.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 50.1.37.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospf 1
+ router-id 10.3.3.3
+ authentication message-digest
+ area 0
+  message-digest-key 1 md5 encrypted 045802150C2E
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+  interface GigabitEthernet0/0/0/3
+  !
+ !
+ area 100
+  virtual-link 10.4.4.4
+   authentication message-digest
+   message-digest-key 1 md5 encrypted 0822455D0A16
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+ !
+!
+end

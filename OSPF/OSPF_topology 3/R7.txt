@@ -1,0 +1,178 @@
+Current configuration : 2088 bytes
+!
+! Last configuration change at 00:48:32 UTC Tue Feb 27 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R7
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+key chain OSPF_KEY
+ key 1
+  key-string cisco
+   cryptographic-algorithm md5
+!
+crypto pki trustpoint TP-self-signed-2863746695
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2863746695
+ revocation-check none
+ rsakeypair TP-self-signed-2863746695
+!
+!
+crypto pki certificate chain TP-self-signed-2863746695
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9APIS77XRX2
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.7.7.7 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 50.0.167.7 255.255.255.0
+ ip ospf authentication key-chain OSPF_KEY
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.1.37.7 255.255.255.0
+ ip ospf authentication key-chain OSPF_KEY
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ ip address 192.168.78.7 255.255.255.0
+ ip ospf authentication key-chain OSPF_KEY
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ router-id 10.7.7.7
+ area 0 authentication message-digest
+ network 10.7.7.7 0.0.0.0 area 0
+ network 50.0.167.0 0.0.0.255 area 0
+ network 50.1.37.0 0.0.0.255 area 0
+ network 192.168.78.0 0.0.0.255 area 0
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end
