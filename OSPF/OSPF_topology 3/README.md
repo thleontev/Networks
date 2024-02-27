@@ -1,5 +1,24 @@
 ## OSPF_topology 3: Authentication, Virtual Links, and Optimization
 
+### Authentication
+
+OSPF Authentication shoud be used to ensure that unauthorized routers cannot form neighbor relationships with legitimate routers
+
+Authentication does not involve any encryption os OSPF Traffic
+
+Authentication can be enabled at the area or the link level
+
+Authentication can be one of three types:
+- O: None (off)
+- 1: Plan Text
+- 2: MD5 Hash
+
+Highly recommend using MD5 Authentication.
+If your version of IOS support RFC 5709 (OSPFv2 HMAC-SHA Cryptographic Authentication), OSPFv2 can use HMAC-SHA algorithms.
+
+Keychain management allows you to create and maintain keychains, which are sequences of keys. You can use keychains with features that secure communications with other devices
+by using key-based authentication. The device allows you to configure multiple keychains.
+
 ### Virtual Links
 Virtual Links (VLs) are used to correct specific area issues
 - Areas that are not connected to area 0
