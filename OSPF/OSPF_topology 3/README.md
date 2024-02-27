@@ -1,4 +1,4 @@
-##OSPF_topology 3: Authentication, Virtual Links, and Optimization
+## OSPF_topology 3: Authentication, Virtual Links, and Optimization
 
 Virtual Links (VLs) are used to correct specific area issues
 - Areas that are not connected to area 0
