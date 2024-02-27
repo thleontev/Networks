@@ -4,7 +4,7 @@
 
 OSPF Authentication shoud be used to ensure that unauthorized routers cannot form neighbor relationships with legitimate routers
 
-Authentication does not involve any encryption os OSPF Traffic
+Authentication does not involve any encryption of OSPF Traffic
 
 Authentication can be enabled at the area or the link level
 
