@@ -1,5 +1,6 @@
 ## OSPF_topology 3: Authentication, Virtual Links, and Optimization
 
+### Virtual Links
 Virtual Links (VLs) are used to correct specific area issues
 - Areas that are not connected to area 0
 - Repairing a discontiguous area 0
@@ -26,3 +27,26 @@ These area run as demand circuit where hellos are suppressed and the database is
 DNA (Do Not Age) is set on updates received across the virtual link
 
 VLs are configured between routers IDs, not IP addresses
+
+
+### Adjust OSPF Timers
+
+One of the easiest ways to increase OSPF perfomance is to adjust its default timers
+
+Remember that the default timers for many protocols including OSPF were created during another time of netwoking technologies and quipment
+
+The fist time we can adjust determines how quickly we can detect the failure of a neighbor
+- This is important so we can route around the issue if possible
+- The two timers involved are the Hello and Dead timers
+- It is recommended that these be kept at 4:1 ratio
+- The default for these values varies based on the OSPF network type
+  - Most modern network  types will defalut to 10/40
+  - Some tranditional WAN network types default to 30/120 (point-to-multipoint)
+- Timers are set per interface
+- Default values should rarely be used
+
+The other timers on the router can also be optimized
+- Manually
+- Automatically using “routing-default-optimeze”
+  - On by default in IOS XE 16.5.1b
+
