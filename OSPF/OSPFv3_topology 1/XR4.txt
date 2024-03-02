@@ -1,0 +1,49 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Fri Mar  1 18:23:31 2024 by toor
+!
+hostname XR4
+interface Loopback0
+ ipv6 address 2001:db8:10::4/128
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv6 address 2001:db8:34::4/64
+!
+interface GigabitEthernet0/0/0/1
+ ipv6 address 2001:db8:245::4/64
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospfv3 1
+ router-id 10.4.4.4
+ area 100
+  encryption ipsec spi 500 esp aes 256 password 1446405858517C7C7C7163647040534355560E000802065D574D400E000E030307075F0E5050000E544254570F5E505879151E584B5643475D5B5C737B757A6061 authentication sha1 password 014254570F5E505879151E584B5643475D5B5C737B757A60617745504E5A51070B0B07015854404F09
+  interface Loopback0
+   passive
+  !
+  interface GigabitEthernet0/0/0/0
+   network point-to-point
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+ !
+!
+end

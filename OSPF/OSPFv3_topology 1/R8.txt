@@ -1,0 +1,168 @@
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R8
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4195900547
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4195900547
+ revocation-check none
+ rsakeypair TP-self-signed-4195900547
+!
+!
+crypto pki certificate chain TP-self-signed-4195900547
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9NODXIGF0RJ
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no ip address
+ ipv6 address 2001:DB8:10::8/128
+ ospfv3 1 ipv6 area 0
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ ipv6 address 2001:DB8:78::8/64
+ ospfv3 1 ipv6 area 0
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospfv3 1
+ router-id 10.8.8.8
+ area 0 authentication ipsec spi 500 sha1 1234567890123456789012345678901234567890
+ !
+ address-family ipv6 unicast
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+!
+!
+!
+end
