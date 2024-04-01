@@ -1,0 +1,190 @@
+!
+! Last configuration change at 01:09:01 UTC Mon Apr 1 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2559481308
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2559481308
+ revocation-check none
+ rsakeypair TP-self-signed-2559481308
+!
+!
+crypto pki certificate chain TP-self-signed-2559481308
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9KE0V6DPXGN
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no ip address
+ ipv6 address FE80::6 link-local
+ ipv6 address 2001:DB8:10::6/128
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ ipv6 address FE80::6 link-local
+ ipv6 address 2001:DB8:167::6/64
+ ipv6 router isis 1
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+ ipv6 address 2001:DB8:61::6/64
+ ipv6 router isis 1
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router isis 1
+ net 49.0100.0060.0600.6006.00
+ is-type level-2-only
+ advertise passive-only
+ metric-style wide
+ passive-interface Loopback0
+ !
+ address-family ipv6
+  multi-topology
+  redistribute bgp 1000
+ exit-address-family
+!
+router bgp 1000
+ bgp router-id 6.6.6.6
+ bgp log-neighbor-changes
+ neighbor 2001:DB8:61::10 remote-as 100
+ !
+ address-family ipv4
+  no neighbor 2001:DB8:61::10 activate
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2001:DB8:61::10 activate
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+!
+!
+!
+end

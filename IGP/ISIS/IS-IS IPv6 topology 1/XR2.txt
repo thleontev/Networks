@@ -1,0 +1,83 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Mon Apr  1 01:30:49 2024 by toor
+!
+hostname XR2
+interface Loopback0
+ ipv6 address fe80::2 link-local
+ ipv6 address 2001:db8:10::2/128
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv6 address fe80::2 link-local
+ ipv6 address 2001:db8:12::2/64
+!
+interface GigabitEthernet0/0/0/1
+ ipv6 address fe80::2 link-local
+ ipv6 address 2001:db8:245::2/64
+!
+interface GigabitEthernet0/0/0/2
+ ipv6 address fe80::2 link-local
+ ipv6 address 2001:db8:29::2/64
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+prefix-set PS_LEAK_ROUTES
+  2001:db8:10::7/128
+end-set
+!
+route-policy RP_ISIS_LEAK
+  if destination in PS_LEAK_ROUTES then
+    done
+  else
+    drop
+  endif
+end-policy
+!
+router isis 1
+ net 49.0010.0020.0200.2002.00
+ address-family ipv6 unicast
+  metric-style wide
+  advertise passive-only
+  summary-prefix 2001:db8:10::/96 tag 2 level 2
+  propagate level 2 into level 1 route-policy RP_ISIS_LEAK
+ !
+ interface Loopback0
+  passive
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  point-to-point
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  point-to-point
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv6 unicast
+  !
+ !
+!
+end

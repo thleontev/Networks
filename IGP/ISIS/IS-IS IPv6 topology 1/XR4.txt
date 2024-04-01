@@ -1,0 +1,68 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Sun Mar 31 18:24:34 2024 by toor
+!
+hostname XR4
+interface Loopback0
+ ipv6 address fe80::4 link-local
+ ipv6 address 2001:db8:10::4/128
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv6 address fe80::4 link-local
+ ipv6 address 2001:db8:34::4/64
+!
+interface GigabitEthernet0/0/0/1
+ ipv6 address fe80::4 link-local
+ ipv6 address 2001:db8:245::4/64
+!
+interface GigabitEthernet0/0/0/2
+ ipv6 address fe80::4 link-local
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router isis 1
+ net 49.0010.0040.0400.4004.00
+ address-family ipv6 unicast
+  metric-style wide
+  advertise passive-only
+  summary-prefix 2001:db8:10::/96 tag 4 level 2
+ !
+ interface Loopback0
+  passive
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  point-to-point
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv6 unicast
+  !
+ !
+!
+end
