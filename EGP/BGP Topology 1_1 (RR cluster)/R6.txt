@@ -1,0 +1,176 @@
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2649357418
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2649357418
+ revocation-check none
+ rsakeypair TP-self-signed-2649357418
+!
+!
+crypto pki certificate chain TP-self-signed-2649357418
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 91P5EYWQ5IF
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.6.6.6 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 50.0.167.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.2.61.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router bgp 1000
+ bgp router-id 10.6.6.6
+ bgp log-neighbor-changes
+ neighbor 50.0.167.1 remote-as 100
+ neighbor 50.0.167.7 remote-as 65001
+ !
+ address-family ipv4
+  network 10.6.6.6 mask 255.255.255.255
+  neighbor 50.0.167.1 activate
+  neighbor 50.0.167.7 activate
+  neighbor 50.0.167.7 next-hop-self
+  neighbor 50.0.167.7 route-map RM_TO_R7 out
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+route-map RM_TO_R7 permit 10
+ set metric 50
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1
+ login
+ length 0
+line vty 2 4
+ login
+!
+!
+!
+!
+!
+!
+end
