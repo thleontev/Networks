@@ -128,12 +128,6 @@ router bgp 100
    route-policy RP_FROM_R2 in
   !
  !
- neighbor 10.4.4.4
-  use neighbor-group iBGP_PEERS
- !
- neighbor 10.5.5.5
-  use neighbor-group iBGP_PEERS
- !
  neighbor 50.1.37.7
   remote-as 65001
   address-family ipv4 unicast

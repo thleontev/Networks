@@ -72,11 +72,5 @@ router bgp 100
  neighbor 10.2.2.2
   use neighbor-group iBGP_PEERS
  !
- neighbor 10.3.3.3
-  use neighbor-group iBGP_PEERS
- !
- neighbor 10.5.5.5
-  use neighbor-group iBGP_PEERS
- !
 !
 end
