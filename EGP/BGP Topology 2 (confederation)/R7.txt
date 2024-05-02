@@ -1,0 +1,189 @@
+!
+! Last configuration change at 17:53:01 UTC Thu May 2 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R7
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2863746695
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2863746695
+ revocation-check none
+ rsakeypair TP-self-signed-2863746695
+!
+!
+crypto pki certificate chain TP-self-signed-2863746695
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9G7J6PXSJZF
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.7.7.7 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 50.0.167.7 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.1.37.7 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ ip address 192.168.78.7 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ network 10.0.0.0 0.255.255.255 area 0
+ network 50.0.167.0 0.0.0.255 area 0
+!
+router bgp 65002
+ bgp router-id 10.7.7.7
+ bgp log-neighbor-changes
+ bgp confederation identifier 100
+ bgp confederation peers 65001
+ neighbor 10.6.6.6 remote-as 65002
+ neighbor 10.6.6.6 update-source Loopback0
+ neighbor 10.6.6.6 next-hop-self
+ neighbor 50.1.37.3 remote-as 65001
+ neighbor 50.1.37.3 next-hop-self
+ neighbor 192.168.78.8 remote-as 200
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+ip bgp-community new-format
+!
+!
+ip prefix-list PL_FROM_R6 seq 5 permit 0.0.0.0/0
+!
+!
+route-map RM_TO_SP1 permit 10
+ set community 100:80
+!
+route-map RM_FROM_R6 permit 10
+ match ip address prefix-list PL_FROM_R6
+ set weight 100
+!
+route-map RM_FROM_R6 permit 20
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end

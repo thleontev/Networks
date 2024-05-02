@@ -1,0 +1,134 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Thu May  2 17:42:37 2024 by toor
+!
+hostname XR1
+address-family ipv4 unicast
+!
+interface Loopback0
+ ipv4 address 10.1.1.1 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 172.16.12.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 172.16.135.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 50.1.19.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 50.0.167.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+prefix-set PS_R4_LOOP
+  100.4.4.0/24
+end-set
+!
+community-set CS_FROM_CUSTOMERS
+  100:80
+end-set
+!
+route-policy RP_ALL
+  pass
+end-policy
+!
+route-policy RP_TO_R7
+  if destination in PS_R4_LOOP then
+    set med 100
+    pass
+  else
+    pass
+  endif
+end-policy
+!
+route-policy RP_TO_AS300
+  prepend as-path own-as 2
+  pass
+end-policy
+!
+route-policy RP_FROM_CUSTOMERS
+  if community matches-any CS_FROM_CUSTOMERS then
+    set local-preference 80
+    pass
+  else
+    pass
+  endif
+end-policy
+!
+router isis 1
+ is-type level-2-only
+ net 49.0000.0100.0100.1001.00
+ address-family ipv4 unicast
+  metric-style wide level 2
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 65001
+ bgp confederation peers
+  65002
+  65003
+ !
+ bgp confederation identifier 100
+ bgp router-id 10.1.1.1
+ address-family ipv4 unicast
+ !
+ neighbor-group iBGP_PEERS
+  remote-as 65001
+  cluster-id 1.1.1.1
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-reflector-client
+   next-hop-self
+  !
+ !
+ neighbor 10.2.2.2
+  use neighbor-group iBGP_PEERS
+ !
+ neighbor 10.3.3.3
+  use neighbor-group iBGP_PEERS
+ !
+ neighbor 10.4.4.4
+  use neighbor-group iBGP_PEERS
+ !
+ neighbor 10.5.5.5
+  use neighbor-group iBGP_PEERS
+ !
+ neighbor 50.1.19.9
+  remote-as 65003
+  address-family ipv4 unicast
+   next-hop-self
+  !
+ !
+ neighbor 50.0.167.6
+  remote-as 65002
+  address-family ipv4 unicast
+   next-hop-self
+  !
+ !
+!
+end

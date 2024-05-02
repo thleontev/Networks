@@ -1,0 +1,181 @@
+!
+! Last configuration change at 17:52:16 UTC Thu May 2 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2649357418
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2649357418
+ revocation-check none
+ rsakeypair TP-self-signed-2649357418
+!
+!
+crypto pki certificate chain TP-self-signed-2649357418
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9IX07ABIKVW
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.6.6.6 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 50.0.167.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 50.2.61.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ network 10.0.0.0 0.255.255.255 area 0
+ network 50.0.167.0 0.0.0.255 area 0
+!
+router bgp 65002
+ bgp router-id 10.6.6.6
+ bgp log-neighbor-changes
+ bgp confederation identifier 100
+ bgp confederation peers 65001
+ neighbor 10.7.7.7 remote-as 65002
+ neighbor 10.7.7.7 update-source Loopback0
+ neighbor 10.7.7.7 next-hop-self
+ neighbor 50.0.167.1 remote-as 65001
+ neighbor 50.0.167.1 next-hop-self
+ neighbor 50.2.61.10 remote-as 300
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+route-map RM_TO_R7 permit 10
+ set metric 50
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1
+ login
+ length 0
+line vty 2 4
+ login
+!
+!
+!
+!
+!
+!
+end
