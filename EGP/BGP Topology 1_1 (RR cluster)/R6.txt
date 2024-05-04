@@ -1,3 +1,6 @@
+!
+! Last configuration change at 05:54:48 UTC Sat May 4 2024
+!
 version 16.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -95,6 +98,9 @@ redundancy
 interface Loopback0
  ip address 10.6.6.6 255.255.255.255
 !
+interface Loopback100
+ ip address 100.6.6.6 255.255.255.255
+!
 interface GigabitEthernet1
  ip address 50.0.167.6 255.255.255.0
  negotiation auto
@@ -129,6 +135,7 @@ router bgp 1000
  !
  address-family ipv4
   network 10.6.6.6 mask 255.255.255.255
+  network 100.6.6.6 mask 255.255.255.255
   neighbor 50.0.167.1 activate
   neighbor 50.0.167.7 activate
   neighbor 50.0.167.7 next-hop-self

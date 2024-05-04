@@ -1,3 +1,6 @@
+!
+! Last configuration change at 05:42:32 UTC Sat May 4 2024
+!
 version 16.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -134,6 +137,7 @@ router bgp 65001
  neighbor 192.168.78.8 remote-as 65001
  !
  address-family ipv4
+  bgp dampening route-map RM_RFD
   network 10.7.7.7 mask 255.255.255.255
   neighbor 50.0.167.1 activate
   neighbor 50.0.167.1 send-community both
@@ -160,6 +164,12 @@ ip bgp-community new-format
 !
 ip prefix-list PL_FROM_R6 seq 5 permit 0.0.0.0/0
 !
+ip prefix-list PL_eBGP_PEERS seq 5 permit 50.0.167.6/32
+!
+!
+route-map RM_RFD permit 10
+ match ip route-source prefix-list PL_eBGP_PEERS
+ set dampening 10 500 2500 30
 !
 route-map RM_TO_SP1 permit 10
  set community 100:80
