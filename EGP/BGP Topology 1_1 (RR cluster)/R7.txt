@@ -1,5 +1,5 @@
 !
-! Last configuration change at 05:42:32 UTC Sat May 4 2024
+! Last configuration change at 12:28:36 UTC Sun May 5 2024
 !
 version 16.6
 service timestamps debug datetime msec
@@ -132,15 +132,19 @@ router bgp 65001
  bgp log-neighbor-changes
  bgp deterministic-med
  neighbor 50.0.167.1 remote-as 100
+ neighbor 50.0.167.1 timers 5 15
  neighbor 50.0.167.6 remote-as 1000
  neighbor 50.1.37.3 remote-as 100
  neighbor 192.168.78.8 remote-as 65001
  !
  address-family ipv4
   bgp dampening route-map RM_RFD
+  bgp additional-paths install
+  bgp scan-time 30
   network 10.7.7.7 mask 255.255.255.255
   neighbor 50.0.167.1 activate
   neighbor 50.0.167.1 send-community both
+  neighbor 50.0.167.1 advertisement-interval 0
   neighbor 50.0.167.1 route-map RM_TO_SP1 out
   neighbor 50.0.167.6 activate
   neighbor 50.0.167.6 send-community both

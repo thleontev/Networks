@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Tue Apr 23 17:29:22 2024 by toor
+!! Last configuration change at Sun May  5 12:29:58 2024 by toor
 !
 hostname XR1
 interface Loopback0
@@ -36,12 +36,28 @@ prefix-set PS_R4_LOOP
   100.4.4.0/24
 end-set
 !
+prefix-set PS_eBGP_PEERS
+  50.0.167.6
+end-set
+!
 community-set CS_FROM_CUSTOMERS
   100:80
 end-set
 !
 route-policy RP_ALL
   pass
+end-policy
+!
+route-policy RP_PIC
+  set path-selection backup 1 install
+end-policy
+!
+route-policy RP_RFD
+  if source in PS_eBGP_PEERS then
+    set dampening halflife 10 suppress 2500 reuse 500 max-suppress 30
+  else
+    pass
+  endif
 end-policy
 !
 route-policy RP_TO_R7
@@ -89,6 +105,9 @@ router isis 1
 router bgp 100
  bgp router-id 10.1.1.1
  address-family ipv4 unicast
+  bgp dampening route-policy RP_RFD
+  bgp scan-time 30
+  additional-paths selection route-policy RP_PIC
  !
  neighbor-group iBGP_PEERS
   remote-as 100
@@ -128,6 +147,8 @@ router bgp 100
  !
  neighbor 50.0.167.7
   remote-as 65001
+  timers 5 15
+  advertisement-interval 0
   address-family ipv4 unicast
    route-policy RP_FROM_CUSTOMERS in
    route-policy RP_TO_R7 out
