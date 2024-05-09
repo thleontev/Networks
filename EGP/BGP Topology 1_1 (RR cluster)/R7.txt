@@ -1,5 +1,5 @@
 !
-! Last configuration change at 12:28:36 UTC Sun May 5 2024
+! Last configuration change at 14:31:46 UTC Thu May 9 2024
 !
 version 16.6
 service timestamps debug datetime msec
@@ -148,7 +148,9 @@ router bgp 65001
   neighbor 50.0.167.1 route-map RM_TO_SP1 out
   neighbor 50.0.167.6 activate
   neighbor 50.0.167.6 send-community both
+  neighbor 50.0.167.6 allowas-in
   neighbor 50.0.167.6 route-map RM_FROM_R6 in
+  neighbor 50.0.167.6 maximum-prefix 100 90 restart 2
   neighbor 50.1.37.3 activate
   neighbor 50.1.37.3 send-community both
   neighbor 50.1.37.3 route-map RM_TO_SP1 out

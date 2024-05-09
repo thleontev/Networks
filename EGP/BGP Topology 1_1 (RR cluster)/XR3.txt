@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Sat May  4 05:14:30 2024 by toor
+!! Last configuration change at Thu May  9 14:43:06 2024 by toor
 !
 hostname XR3
 interface Loopback0
@@ -90,7 +90,7 @@ end-policy
 !
 router isis 1
  is-type level-2-only
- net 49.0000.0100.0300.3003.00
+ net 49.0000.0300.0300.3003.00
  address-family ipv4 unicast
   metric-style wide level 2
  !
