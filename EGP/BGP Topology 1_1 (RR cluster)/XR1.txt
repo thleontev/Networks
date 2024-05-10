@@ -1,7 +1,14 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Thu May  9 14:37:06 2024 by toor
+!! Last configuration change at Fri May 10 07:56:26 2024 by toor
 !
 hostname XR1
+key chain BGP_KEY
+ key 1
+  key-string password 14141B180F0B
+  send-lifetime 00:00:00 january 01 2000 infinite
+  cryptographic-algorithm HMAC-SHA1-12
+ !
+!
 interface Loopback0
  ipv4 address 10.1.1.1 255.255.255.255
 !
@@ -31,6 +38,11 @@ interface GigabitEthernet0/0/0/6
 !
 interface GigabitEthernet0/0/0/7
  shutdown
+!
+router static
+ address-family ipv4 unicast
+  10.9.9.9/32 50.1.19.9
+ !
 !
 router isis 1
  is-type level-2-only
@@ -69,6 +81,7 @@ router bgp 100
  !
  neighbor 10.2.2.2
   use neighbor-group iBGP_PEERS
+  keychain BGP_KEY
  !
  neighbor 10.3.3.3
   use neighbor-group iBGP_PEERS
@@ -79,15 +92,20 @@ router bgp 100
  neighbor 10.5.5.5
   use neighbor-group iBGP_PEERS
  !
- neighbor 50.1.19.9
+ neighbor 10.9.9.9
   remote-as 300
+  ttl-security
+  update-source Loopback0
+  ignore-connected-check
   address-family ipv4 unicast
    route-policy RP_ALL in
    route-policy RP_TO_AS300 out
+   remove-private-AS
   !
  !
  neighbor 50.0.167.6
   remote-as 1000
+  password encrypted 14141B180F0B
   address-family ipv4 unicast
    route-policy RP_ALL in
    maximum-prefix 100 90 restart 2
@@ -107,3 +125,4 @@ router bgp 100
  !
 !
 end
+
