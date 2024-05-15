@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Tue May 14 17:28:57 2024 by toor
+!! Last configuration change at Wed May 15 01:52:35 2024 by toor
 !
 hostname XR2
 key chain BGP_KEY
@@ -23,6 +23,7 @@ interface GigabitEthernet0/0/0/1
 !
 interface GigabitEthernet0/0/0/2
  ipv4 address 50.1.29.2 255.255.255.0
+ ipv4 verify unicast source reachable-via rx
 !
 interface GigabitEthernet0/0/0/3
  shutdown

@@ -1,5 +1,5 @@
 !
-! Last configuration change at 01:21:21 UTC Wed May 15 2024
+! Last configuration change at 14:29:47 UTC Wed May 15 2024
 !
 version 16.6
 service timestamps debug datetime msec
@@ -110,6 +110,9 @@ interface Loopback3
 interface Loopback4
  ip address 200.200.230.9 255.255.255.0
 !
+interface Loopback100
+ ip address 100.9.9.9 255.255.255.0
+!
 interface GigabitEthernet1
  ip address 50.1.19.9 255.255.255.0
  negotiation auto
@@ -147,6 +150,7 @@ router bgp 300
  !
  address-family ipv4
   network 0.0.0.0
+  network 100.9.9.0 mask 255.255.255.0
   neighbor 10.1.1.1 activate
   neighbor 10.1.1.1 capability orf prefix-list send
   neighbor 10.1.1.1 prefix-list PL_FROM_R1 in

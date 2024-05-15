@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Tue May 14 18:34:12 2024 by toor
+!! Last configuration change at Wed May 15 14:43:49 2024 by toor
 !
 hostname XR1
 key chain BGP_KEY
@@ -23,9 +23,11 @@ interface GigabitEthernet0/0/0/1
 !
 interface GigabitEthernet0/0/0/2
  ipv4 address 50.1.19.1 255.255.255.0
+ ipv4 verify unicast source reachable-via rx
 !
 interface GigabitEthernet0/0/0/3
  ipv4 address 50.0.167.1 255.255.255.0
+ ipv4 verify unicast source reachable-via rx
 !
 interface GigabitEthernet0/0/0/4
  shutdown
@@ -54,6 +56,7 @@ end-policy
 router static
  address-family ipv4 unicast
   10.9.9.9/32 50.1.19.9
+  100.8.8.8/32 Null0 tag 999
   100.10.30.0/24 Null0 tag 999
   192.0.2.0/24 Null0
  !
@@ -89,6 +92,7 @@ router bgp 100
   update-source Loopback0
   address-family ipv4 unicast
    route-reflector-client
+   next-hop-self
   !
  !
  neighbor 10.2.2.2
