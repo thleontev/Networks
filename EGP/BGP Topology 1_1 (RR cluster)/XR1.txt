@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Fri May 10 07:56:26 2024 by toor
+!! Last configuration change at Tue May 14 18:34:12 2024 by toor
 !
 hostname XR1
 key chain BGP_KEY
@@ -39,9 +39,23 @@ interface GigabitEthernet0/0/0/6
 interface GigabitEthernet0/0/0/7
  shutdown
 !
+route-policy RP_ALL
+  pass
+end-policy
+!
+route-policy RP_RTBH
+  if tag is 999 then
+    set next-hop 192.0.2.1
+    set community (no-export)
+    set local-preference 2000
+  endif
+end-policy
+!
 router static
  address-family ipv4 unicast
   10.9.9.9/32 50.1.19.9
+  100.10.30.0/24 Null0 tag 999
+  192.0.2.0/24 Null0
  !
 !
 router isis 1
@@ -66,9 +80,8 @@ router isis 1
 router bgp 100
  bgp router-id 10.1.1.1
  address-family ipv4 unicast
-  bgp dampening route-policy RP_RFD
   bgp scan-time 30
-  additional-paths selection route-policy RP_PIC
+  redistribute static route-policy RP_RTBH
  !
  neighbor-group iBGP_PEERS
   remote-as 100
@@ -76,7 +89,6 @@ router bgp 100
   update-source Loopback0
   address-family ipv4 unicast
    route-reflector-client
-   next-hop-self
   !
  !
  neighbor 10.2.2.2
@@ -99,7 +111,8 @@ router bgp 100
   ignore-connected-check
   address-family ipv4 unicast
    route-policy RP_ALL in
-   route-policy RP_TO_AS300 out
+   route-policy RP_ALL out
+   capability orf prefix receive
    remove-private-AS
   !
  !
@@ -118,11 +131,10 @@ router bgp 100
   timers 5 15
   advertisement-interval 0
   address-family ipv4 unicast
-   route-policy RP_FROM_CUSTOMERS in
-   route-policy RP_TO_R7 out
+   route-policy RP_ALL in
+   route-policy RP_ALL out
    soft-reconfiguration inbound
   !
  !
 !
 end
-

@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Thu May  9 14:43:06 2024 by toor
+!! Last configuration change at Tue May 14 17:29:18 2024 by toor
 !
 hostname XR3
 interface Loopback0
@@ -88,23 +88,13 @@ route-policy RP_FROM_CUSTOMERS
   endif
 end-policy
 !
-router isis 1
- is-type level-2-only
- net 49.0000.0300.0300.3003.00
+router static
  address-family ipv4 unicast
-  metric-style wide level 2
+  192.0.2.0/24 Null0
  !
- interface Loopback0
-  address-family ipv4 unicast
-  !
- !
- interface GigabitEthernet0/0/0/0
-  address-family ipv4 unicast
-  !
- !
- interface GigabitEthernet0/0/0/1
-  address-family ipv4 unicast
-  !
+!
+router isis 1
+ address-family ipv4 unicast
  !
 !
 router bgp 100

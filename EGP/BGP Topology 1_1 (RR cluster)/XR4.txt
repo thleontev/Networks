@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Sat May  4 05:15:15 2024 by toor
+!! Last configuration change at Tue May 14 17:29:35 2024 by toor
 !
 hostname XR4
 interface Loopback0
@@ -34,6 +34,11 @@ interface GigabitEthernet0/0/0/6
 !
 interface GigabitEthernet0/0/0/7
  shutdown
+!
+router static
+ address-family ipv4 unicast
+  192.0.2.0/24 Null0
+ !
 !
 router isis 1
  is-type level-2-only
