@@ -1,0 +1,68 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Sat May 18 06:16:49 2024 by toor
+!
+hostname XR2
+interface Loopback0
+ ipv4 address 10.2.2.2 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 172.16.12.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 172.16.245.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 50.1.29.2 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+prefix-set PS_LOOPS
+  10.0.0.0/8 eq 32
+end-set
+!
+route-policy RP_EIGRP_METRIC
+  if destination in PS_LOOPS then
+    set eigrp-metric 15000 10 255 1 1500
+  else
+    set eigrp-metric 150000 10 255 1 1500
+  endif
+end-policy
+!
+router ospf 1
+ router-id 10.2.2.2
+ redistribute eigrp 100 tag 90
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+ !
+!
+router eigrp 100
+ address-family ipv4
+  distance 90 170
+  default-metric 1500 10 255 1 1500
+  redistribute ospf 1 route-policy RP_EIGRP_METRIC
+  interface GigabitEthernet0/0/0/2
+  !
+ !
+!
+end

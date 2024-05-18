@@ -1,0 +1,99 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Sat May 18 06:16:32 2024 by toor
+!
+hostname XR1
+interface Loopback0
+ ipv4 address 10.1.1.1 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 172.16.12.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 172.16.135.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 50.1.19.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 50.0.167.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+prefix-set PS_LOOPS
+  10.0.0.0/8 eq 32
+end-set
+!
+route-policy RP_OSPF_FILTER
+  if tag eq 115 then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy RP_EIGRP_METRIC
+  if destination in PS_LOOPS then
+    set eigrp-metric 15000 10 255 1 1500
+  else
+    set eigrp-metric 150000 10 255 1 1500
+  endif
+end-policy
+!
+router isis 1
+ is-type level-2-only
+ net 49.0010.0100.0100.1001.00
+ address-family ipv4 unicast
+  metric-style wide level 2
+  redistribute ospf 1 level-2
+ !
+ interface Loopback0
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  circuit-type level-2-only
+  address-family ipv4 unicast
+   metric 15 level 2
+  !
+ !
+!
+router ospf 1
+ router-id 10.1.1.1
+ distribute-list route-policy RP_OSPF_FILTER in
+ redistribute isis 1 tag 115
+ redistribute eigrp 100 tag 90
+ address-family ipv4 unicast
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+ !
+!
+router eigrp 100
+ address-family ipv4
+  distance 90 170
+  default-metric 1500 10 255 1 1500
+  redistribute ospf 1 route-policy RP_EIGRP_METRIC
+  interface GigabitEthernet0/0/0/2
+  !
+ !
+!
+end

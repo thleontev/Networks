@@ -1,0 +1,177 @@
+!
+! Last configuration change at 01:50:31 UTC Sat May 18 2024
+!
+version 16.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R8
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-341847029
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-341847029
+ revocation-check none
+ rsakeypair TP-self-signed-341847029
+!
+!
+crypto pki certificate chain TP-self-signed-341847029
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 93UXX4WZWMP
+diagnostic bootup level minimal
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.8.8.8 255.255.255.255
+ ip router isis 1
+ isis circuit-type level-2-only
+!
+interface Loopback88
+ ip address 88.88.88.88 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 192.168.78.8 255.255.255.0
+ ip router isis 1
+ negotiation auto
+ no mop enabled
+ no mop sysid
+ isis circuit-type level-2-only
+!
+interface GigabitEthernet2
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router isis 1
+ net 49.0010.0100.0800.8008.00
+ is-type level-2-only
+ router-id Loopback0
+ metric-style wide
+ redistribute connected
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ login
+line vty 1 2
+ login
+ length 0
+line vty 3 4
+ login
+!
+!
+!
+!
+!
+!
+end
