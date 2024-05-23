@@ -1,0 +1,97 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Sat Jun 17 10:54:48 2023 by toor
+!
+hostname XR1
+explicit-path name TE_PATH
+ index 1 next-address strict ipv4 unicast 10.4.4.4
+ index 2 next-address strict ipv4 unicast 10.5.5.5
+!
+interface Loopback0
+ ipv4 address 10.1.1.1 255.255.255.255
+!
+interface tunnel-te1
+ ipv4 unnumbered Loopback0
+ priority 0 0
+ signalled-bandwidth 1000
+ autoroute announce
+  metric absolute 1
+ !
+ destination 10.5.5.5
+ path-option 1 dynamic
+!
+interface tunnel-te2
+ ipv4 unnumbered Loopback0
+ signalled-bandwidth 1000
+ autoroute announce
+  metric absolute 2
+ !
+ destination 10.5.5.5
+ path-option 1 explicit name TE_PATH
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description Customer A-HQ
+ ipv4 address 192.168.16.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to XR3
+ ipv4 address 172.16.13.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to XR4
+ ipv4 address 172.16.14.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospf 1
+ router-id 10.1.1.1
+ area 0
+  mpls traffic-eng
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+  interface GigabitEthernet0/0/0/2
+  !
+ !
+ mpls traffic-eng router-id Loopback0
+!
+rsvp
+ interface GigabitEthernet0/0/0/1
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+mpls ldp
+ router-id 10.1.1.1
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+end
