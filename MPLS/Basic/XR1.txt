@@ -1,10 +1,11 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Sat Jun 17 10:54:48 2023 by toor
+!! Last configuration change at Thu May 23 02:01:14 2024 by toor
 !
 hostname XR1
 explicit-path name TE_PATH
  index 1 next-address strict ipv4 unicast 10.4.4.4
- index 2 next-address strict ipv4 unicast 10.5.5.5
+ index 2 next-address strict ipv4 unicast 10.3.3.3
+ index 3 next-address strict ipv4 unicast 10.5.5.5
 !
 interface Loopback0
  ipv4 address 10.1.1.1 255.255.255.255
