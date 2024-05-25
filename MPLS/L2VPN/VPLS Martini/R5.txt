@@ -1,5 +1,5 @@
 !
-! Last configuration change at 16:54:25 UTC Thu Jul 6 2023
+! Last configuration change at 04:09:42 UTC Sat May 25 2024
 !
 version 16.6
 service timestamps debug datetime msec
@@ -69,7 +69,7 @@ crypto pki certificate chain TP-self-signed-2476174419
 !
 !
 !
-license udi pid CSR1000V sn 9BD1QU8HT9E
+license udi pid CSR1000V sn 9ZPPMK9RHXS
 diagnostic bootup level minimal
 spanning-tree extend system-id
 !

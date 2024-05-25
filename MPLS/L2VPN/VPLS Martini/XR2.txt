@@ -1,5 +1,5 @@
 !! IOS XR Configuration 6.3.1
-!! Last configuration change at Thu Jun 22 14:47:45 2023 by toor
+!! Last configuration change at Sat May 25 04:58:32 2024 by toor
 !
 hostname XR2
 interface Loopback0
@@ -55,6 +55,22 @@ router ospf 1
   !
  !
  mpls traffic-eng router-id Loopback0
+!
+l2vpn
+ xconnect group CustB_VPN
+  p2p tag10
+   interface GigabitEthernet0/0/0/0.10
+   neighbor ipv4 10.5.5.5 pw-id 10
+   !
+  !
+  p2p untagged
+   interface GigabitEthernet0/0/0/0.999
+   neighbor ipv4 10.5.5.5 pw-id 999
+   !
+  !
+ !
+!
+mpls oam
 !
 rsvp
  interface GigabitEthernet0/0/0/1
