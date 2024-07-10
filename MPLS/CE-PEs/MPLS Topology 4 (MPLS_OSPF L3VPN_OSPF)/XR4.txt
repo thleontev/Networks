@@ -1,0 +1,88 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Fri Jun 23 15:20:13 2023 by toor
+!
+hostname XR4
+interface Loopback0
+ ipv4 address 10.4.4.4 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description to SW1
+ ipv4 address 172.16.45.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to XR2
+ ipv4 address 172.16.24.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to XR1
+ ipv4 address 172.16.14.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ description to XR4
+ ipv4 address 172.16.34.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 172.16.114.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospf 1
+ router-id 10.4.4.4
+ mpls ldp auto-config
+ prefix-suppression
+ area 0
+  mpls ldp auto-config
+  mpls traffic-eng
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+  interface GigabitEthernet0/0/0/2
+  !
+  interface GigabitEthernet0/0/0/3
+  !
+  interface GigabitEthernet0/0/0/5
+  !
+ !
+ mpls traffic-eng router-id Loopback0
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/1
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/3
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls ldp
+ router-id 10.4.4.4
+!
+end
