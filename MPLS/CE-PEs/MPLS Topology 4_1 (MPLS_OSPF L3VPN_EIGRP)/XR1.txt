@@ -1,0 +1,125 @@
+!! IOS XR Configuration 6.3.1
+!! Last configuration change at Thu Jul 11 02:01:46 2024 by toor
+!
+hostname XR1
+vrf CustA
+ address-family ipv4 unicast
+  import route-target
+   100:1000
+  !
+  export route-target
+   100:1000
+  !
+ !
+ address-family ipv6 unicast
+  import route-target
+   100:1000
+  !
+  export route-target
+   100:1000
+  !
+ !
+!
+interface Loopback0
+ ipv4 address 10.1.1.1 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description Customer A-HQ
+ vrf CustA
+ ipv4 address 192.168.16.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to XR3
+ ipv4 address 172.16.13.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to XR4
+ ipv4 address 172.16.14.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+router ospf 1
+ router-id 10.1.1.1
+ prefix-suppression
+ area 0
+  mpls traffic-eng
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+  interface GigabitEthernet0/0/0/2
+  !
+ !
+ mpls traffic-eng router-id Loopback0
+!
+router bgp 100
+ bgp router-id 10.1.1.1
+ address-family vpnv4 unicast
+ !
+ address-family vpnv6 unicast
+ !
+ neighbor 10.12.12.12
+  remote-as 100
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+  address-family vpnv6 unicast
+  !
+ !
+ vrf CustA
+  rd 100:10
+  address-family ipv4 unicast
+   redistribute eigrp 100
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/1
+  bandwidth 2000 1000
+ !
+ interface GigabitEthernet0/0/0/2
+  bandwidth 2000 1000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+mpls ldp
+ router-id 10.1.1.1
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+router eigrp 100
+ vrf CustA
+  address-family ipv4
+   autonomous-system 100
+   redistribute bgp 100
+   interface GigabitEthernet0/0/0/0
+   !
+  !
+ !
+!
+end
