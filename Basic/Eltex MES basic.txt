@@ -1,0 +1,448 @@
+﻿=== update to 4.0.23.1R2 ===
+interface vlan 1
+ ip address *.*.*.* 255.255.255.0
+ no shut 
+exit
+
+sh ver
+boot system tftp://*.*.*.*/mes3300-4023-1R2.ros
+reload
+
+!
+sh ver
+sh system
+
+
+=== name ===
+hostname {hostname}
+no ip domain lookup
+ip domain name {domain_name}
+ip name-server {name_server}
+
+
+=== vlan ===
+configure
+ vlan database
+  vlan {vlan_printers} name Printers
+  vlan {vlan_users} name Users
+  vlan {vlan_unused} name Unused
+  vlan {vlan_voice} name VoIP-Phones
+  vlan {vlan_mgmt} name Management
+  vlan {vlan_native} name native
+exit
+
+voice vlan id {vlan_voice}
+
+interface vlan 1
+ no ip address
+ no ip address dhcp 
+exit
+
+interface vlan {vlan_mgmt}
+ name Management
+ ip address *.*.*.* 255.255.255.0 
+exit
+
+ip default-gateway *.*.*.*
+
+! show arp 
+! show vlan
+
+
+=== stp ===
+spanning-tree mode rapid-pvst
+spanning-tree loopguard default
+loopback-detection enable
+spanning-tree priority 61440
+
+! show spanning-tree detail
+
+
+=== clock ===
+clock set 12:00:00 01 Oct 2000
+! show clock detail
+
+configure
+ clock timezone YEKT +5
+ clock source sntp
+ sntp unicast client enable
+ sntp unicast client poll
+ sntp server {ntp_server1} poll 
+ sntp server {ntp_server2} poll 
+ sntp source-interface vlan {vlan_mgmt}
+ no clock summer-time
+ no clock dhcp timezone
+
+! show sntp status
+
+
+=== lldp ===
+lldp run 
+lldp med network-policy 1 voice vlan {vlan_voice} vlan-type tagged up 5
+
+! sh lldp neighbors
+! sh lldp neighbors gi1/0/1
+! sh lldp configuration
+
+
+=== security ===
+! errdisable
+errdisable recovery interval 60
+errdisable recovery cause loopback-detection
+errdisable recovery cause port-security
+errdisable recovery cause stp-bpdu-guard
+errdisable recovery cause stp-loopback-guard
+errdisable recovery cause unidirectional-link
+errdisable recovery cause storm-control
+
+! show errdisable recovery
+! show errdisable interfaces
+
+! dhcp
+ip dhcp snooping
+ip dhcp snooping database
+ip dhcp snooping vlan {vlan_printers}
+ip dhcp snooping vlan {vlan_users}
+ip dhcp snooping vlan {vlan_voice}
+  
+! show ip dhcp snooping
+! show ip dhcp snooping binding
+! show ip dhcp information option
+
+
+=== ssh ===
+no ip http server
+no ip telnet server
+ip ssh server
+
+line ssh
+ history
+ history size 50 
+ exec-timeout 10
+exit
+
+management access-list MGMT
+ permit ip-source {ssh_ip1} service ssh
+ permit ip-source {ssh_ip2} service ssh
+ permit ip-source {snmp_ip1} service snmp
+ permit ip-source {snmp_ip2} service snmp
+ permit ip-source {mon_net} mask *.*.*.* service snmp
+ permit ip-source {admin_net} mask *.*.*.* service ssh
+exit
+
+management access-class MGMT
+
+=== syslog ===
+logging on
+logging host {syslog_server1} facility local5
+logging host {syslog_server1} facility local5
+logging host {siem_server1} port 514 severity informational facility local4 description {hostname}
+logging cli-commands
+logging origin-id hostname
+logging events link-status
+logging buffered 1000 informational
+logging events spanning-tree topology-change
+management logging deny
+logging source-interface vlan {vlan_mgmt} 
+
+! show syslog-servers
+
+=== aaa ===
+username local-user password *** privilege 15
+enable password ***
+
+username admin password ***
+username remote password ***
+username techsupport password ***
+
+tacacs-server host {tacacs_server1} key *** priority 10
+tacacs-server host {tacacs_server1} key *** priority 20
+tacacs-server host source-interface vlan {vlan_mgmt}
+
+aaa logging login
+aaa authentication mode break 
+aaa accounting login start-stop group tacacs+
+aaa accounting commands stop-only group tacacs+ 
+aaa authentication login authorization default tacacs local 
+aaa authentication enable default tacacs enable
+
+! show authorization methods
+
+
+=== snmp ===
+snmp-server server
+snmp-server location "***"
+snmp-server contact "***"
+snmp-server host {snmp_server1} ***
+snmp-server host {snmp_server2} ***
+snmp-server community *** ro view Default
+snmp-server community *** ro view Default
+
+snmp-server enable traps mac-notification change 
+snmp-server enable traps port-security max 
+snmp-server enable traps ospf
+snmp-server enable traps dhcp-snooping limit clients 
+snmp-server enable traps storage notification 
+snmp-server enable traps storage recovery-notification 
+snmp-server enable traps cpu notification 
+snmp-server enable traps cpu recovery-notification 
+snmp-server enable traps memory notification 
+snmp-server enable traps memory recovery-notification 
+snmp-server enable traps sensor notification 
+snmp-server enable traps sensor recovery-notification 
+
+snmp-server source-interface traps vlan {vlan_mgmt}
+snmp-server source-interface informs vlan {vlan_mgmt}
+
+=== backup config ===
+backup server tftp://{backup_server}
+backup path /eltex_s/{hostname}.{domain_name}
+backup time-period 600 
+backup auto
+
+
+=== QoS ===
+! 1P7Q8T, 2P7Q8T, 8P8T, 8Q8T.
+
+! Default
+qos basic
+qos trust dscp
+qos statistics interface 
+
+! show qos
+! show qos map dscp-queue
+! show interfaces gi1/0/46
+! show rmon statistics gi1/0/46
+! show qos statistics
+
+
+=== interfaces ===
+interface range Po1-48
+ shutdown
+
+interface range te1/0/1-4
+ shutdown
+ 
+interface range gi1/0/1-48
+ shutdown
+
+! PC+IPhone
+interface gigabitethernet1/0/{num}
+ description {description}
+ switchport mode general
+ switchport general allowed vlan add {vlan_voice} tagged
+ switchport general allowed vlan add {vlan_users} untagged
+ switchport general pvid {vlan_users}
+ port security max 3
+ port security mode secure-permanent
+ port security discard
+ storm-control broadcast level 1 trap shutdown
+ storm-control multicast level 1 trap shutdown
+ lldp med enable network-policy
+ lldp med network-policy add 1
+ power inline {power_inline}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ ip dhcp snooping limit rate 50
+ qos trust dscp
+ no shutdown
+
+! PC only
+interface gigabitethernet1/0/{num}
+ description {description}
+ switchport mode access
+ switchport access vlan {vlan_users}
+ port security max 1
+ port security mode secure-permanent
+ port security discard
+ storm-control broadcast level 1 trap shutdown
+ storm-control multicast level 1 trap shutdown
+ power inline {power_inline}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ ip dhcp snooping limit rate 50
+ qos trust dscp
+ no lldp transmit
+ no lldp receive
+ no shutdown
+
+! IPhone only
+interface gigabitethernet1/0/{num}
+ description {description}
+ switchport mode general
+ switchport general allowed vlan add {vlan_voice} tagged
+ port security max 2
+ port security mode secure-permanent
+ port security discard
+ storm-control broadcast level 1 trap shutdown
+ storm-control multicast level 1 trap shutdown
+ lldp med enable network-policy
+ lldp med network-policy add 1
+ power inline {power_inline}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ ip dhcp snooping limit rate 50
+ qos trust dscp
+ no shutdown
+
+! shutdown
+interface gigabitethernet1/0/{num}
+ description {description}
+ switchport mode access
+ switchport access vlan {vlan_unused}
+ shutdown
+exit
+
+! Uplink
+interface tengigabitethernet1/0/1
+ description {description}
+ switchport mode trunk
+ storm-control broadcast level 1 trap
+ storm-control multicast level 1 trap
+ spanning-tree link-type point-to-point
+ channel-group 1 mode auto 
+ qos trust dscp
+ no shutdown
+exit
+
+! Uplink
+interface tengigabitethernet1/0/2
+ description {description}
+ switchport mode trunk
+ storm-control broadcast level 1 trap
+ storm-control multicast level 1 trap
+ spanning-tree link-type point-to-point
+ channel-group 1 mode auto 
+ qos trust dscp
+ no shutdown
+exit
+
+! LAG
+interface Port-channel1
+ description {description}
+ no negotiation
+ ip dhcp snooping trust
+ ip arp inspection trust
+ switchport mode trunk
+ switchport trunk allowed vlan add {vlan_printers},{vlan_users},{vlan_voice},{vlan_mgmt}
+ switchport trunk native vlan {vlan_native}
+ spanning-tree link-type point-to-point
+ no shutdown
+exit
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+=== Eltex port security ===
+! посмотреть настройки
+sh ports security
+sh ports security gi1/0/1
+
+! посмотреть распределение
+sh port security addresses
+sh port security addresses gi1/0/1
+
+! посмотреть статус
+sh ports security status
+
+! посмотреть таблицу
+sh mac address-table interface gi1/0/1
+sh run | inc mac
+
+! очистить таблицу mac
+clear mac address-table secure interface gi1/0/4
+
+! в крайнем случае 
+no mac address-table static 00:00:00:00:00:00 vlan {vlan_voice}
+
+! чтобы помнять port security max 
+no port security       			! откл.
+port security max 4    			! изменить
+port security discard  			! вкл., по дефолту discard
+
+! port-security event
+01-Oct-2024 11:06:15 %2SWPORT-W-LOCKPORTACTIVE: A packet with source MAC 00:00:00:00:00:00 tried to access through port gi1/0/27, VLAN **, which is locked
+
+
+=== voice vlan ===
+1. уст-ву сообщить о voice vlan и параметры QoS можно через lldp-med
+2. коммутатору сообщить о voice vlan можно несколькими способами:
+- voice vlan enable (должна быть включена и заполнена таблица oui-table):
+  - ручной заполнение таблицы mac (в среднем 10-13 ТА на коммутатор);
+  - более читаемый конфиг на интерфейсах.
+
+- switchport general allowed vlan add {vlan_voice} tagged 
+  - работает с "любыми" уст-ми без доп. настройки
+  - port security видит tagged vlan как voice или не видит, зависит от конфигурации интерфейса
+  - если указываем port security max 4 и port security max 1 voice, то для Data доступно 3 MAC'а, для Voice 1 MAC, 
+    в итоге: 1-й mac ПК, 2-й mac IPPhone (Default VLAN - LLDP), 3-й IPPhone ("voice vlan").
+
+! пример настройки !
+! уст-ву по lldp сообщаем voice vlan, коммутатору через oui-table
+voice vlan id {vlan_voice}
+voice vlan state oui-enabled
+voice vlan secure mac-learning  ! исключает voice vlan из таблицы mac data
+voice vlan oui-table add 000000 ! mac телефона
+
+lldp med network-policy 1 voice vlan {vlan_voice} vlan-type tagged up 4
+
+interface gigabitethernet1/0/1
+port security max 2
+port security max 1 voice
+port security mode max-addresses
+switchport mode general
+switchport general allowed vlan add *** untagged
+switchport general pvid ***
+lldp med enable network-policy
+lldp med network-policy add 1
+voice vlan enable
+
+! sh voice
+! sh voice vlan type oui detailed
+
+
+=== балансировка трафика в Port-channel  ===
+! port-channel load-balance src-dst-ip
+
+
+=== arp inspection ===
+ip arp inspection vlan {vlan_users}
+ip arp inspection vlan {vlan_voice}
+
+interface range Po1
+ ip arp inspection trusted  
+
+! show ip arp inspection
+! show ip arp inspection statistics
+
+
+=== SPAN ===
+Организуем мониторинг трафика с порта GigabitEthernet 0/1 и с vlan 3 на примере MES2324.
+interface GigabitEthernet 0/2
+ port monitor GigabitEthernet 0/1
+ port monitor vlan 3
+
+=== errdisable ===
+errdisable recovery reset all
+errdisable recovery reset link-flapping
+errdisable recovery reset storm-control
+
+sh errdisable recovery
+sh errdisable interfaces
+
+
+=== RSPAN ===
+configure
+ vlan database
+  vlan {vlan_rspan} name RSPAN
+
+port monitor mode network
+port monitor remote vlan {vlan_rspan}
+
+! порт источник
+int gigabitethernet1/0/22
+  spanning-tree bpdu filtering
+
+! порт назначения (! сначала включить port monitor remote) 
+interface Port-channel1
+ port monitor remote
+ port monitor gigabitethernet1/0/22
+ ! spanning-tree disable
